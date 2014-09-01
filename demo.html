@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+
+  <link href="css/style.css" rel="stylesheet" type="text/css"> 
+  <script src="js/platform.js"></script>
+  <script src="js/polymer.js"></script>
+ 
+</head>
+
+<body>
+<!-- Define element -->
+<polymer-element name="polymer-colormap" attributes="min max steps  transform colormapname">
+  <template>
+   
+    
+    <ul id="sel_colormap">
+    <li class="sel_heading"> Colormaps: </li>
+    <template repeat="{{c in colormaps}}">
+    <li id="colormap_{{c.name}}" class="colormapname" data-colormap="{{c.name}}">{{c.name}}</li>  
+    </ul>
+    </template>
+
+
+    <ul id="sel_transform" class="selbox">
+      <li class="sel_heading"> Transform: </li>
+      <li class="transformname" id="trans_linear" data-transform="linear"> linear</li>
+      <li class="transformname" id="trans_sqrt" data-transform="sqrt"> sqrt</li>
+      <li class="transformname" id="trans_log2" data-transform="log2"> log2</li>
+      <li class="transformname" id="trans_log10" data-transform="log10"> log10</li>  
+    </ul>
+
+    <ul id="sel_swap" class="selbox">
+      <li class="sel_heading"> Gradient:</li>
+      <li class="swapname" id="inv_grad" > invert gradient</li>
+      <li class="swapname" id="inv_grad" > Mininum:{{min}}</li>
+      <li class="swapname" id="inv_grad" > Maximum:{{max}}</li>
+      <li class="swapname" id="inv_grad" > Steps:{{steps}}</li>
+    </ul>
+
+  </template>
+  <script>
+    Polymer({
+      min: 0, // Default value
+      max: 'max',
+      steps: 20,
+      colormapname: 'blue',
+      transform: 'linear',
+      counterChanged: function() {
+        this.$.counterVal.classList.add('highlight');
+      },
+      increment: function() {
+        this.counter++;
+      },
+      ready: function () {
+        this.colormaps=[
+        {name:'blue'},
+        {name:'red'},
+        {name:'green'},
+        ];
+      }
+    });
+  </script>
+</polymer-element>
+
+<!-- Use element -->
+<polymer-colormap>Minimum: </polymer-colormap>
+
+</body>
