@@ -9,15 +9,13 @@
   <link href="css/style.css" rel="stylesheet" type="text/css"> 
   <script src="js/platform.js"></script>
   <script src="js/polymer.js"></script>
- 
 </head>
+
 
 <body>
 <!-- Define element -->
-<polymer-element name="polymer-colormap" attributes="min max steps  transform colormapname">
+<polymer-element name="colormap-controls" attributes="min max steps transform colormapname">
   <template>
-   
-    
     <ul id="sel_colormap">
     <li class="sel_heading"> Colormaps: </li>
     <template repeat="{{c in colormaps}}">
@@ -37,19 +35,24 @@
     <ul id="sel_swap" class="selbox">
       <li class="sel_heading"> Gradient:</li>
       <li class="swapname" id="inv_grad" > invert gradient</li>
-      <li class="swapname" id="inv_grad" > Mininum:{{min}}</li>
-      <li class="swapname" id="inv_grad" > Maximum:{{max}}</li>
-      <li class="swapname" id="inv_grad" > Steps:{{steps}}</li>
+      <li class="swapname" id="inv_grad" > Mininum: <input type="text" name="gradient_min" class="gradient_input" value="{{min}}" maxlength=5  >  </li>
+      <li class="swapname" id="inv_grad" > Maximum:  <input type="text" name="gradient_max" class="gradient_input" value="{{max}}" maxlength=5> </li>
+      <li class="swapname" id="inv_grad" > Steps:  <input type="text" name="gradient_steps" class="gradient_input" value="{{steps}}" maxlength=5> </li>
     </ul>
 
   </template>
+
+
+
   <script>
-    Polymer({
+  Polymer({
       min: 0, // Default value
       max: 'max',
       steps: 20,
       colormapname: 'blue',
       transform: 'linear',
+
+
       counterChanged: function() {
         this.$.counterVal.classList.add('highlight');
       },
@@ -64,10 +67,39 @@
         ];
       }
     });
+
+
+
+/*
+var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
+ColorMapControlsPrototype.createdCallback = function() {
+  this.textContent = "colormap controller";
+};
+
+ColorMapControlsPrototype.foo = function() {
+  console.log('ColorMapControlsPrototype() called');
+};
+
+var ColorMapControls = document.registerElement('colormap-ccontrols', {
+  prototype: ColorMapControlsPrototype
+});
+*/
+  </script>
+  <script src="js/ui.js"></script>
+</polymer-element>
+
+
+<polymer-element name="colormap-gradient" attributes="min max steps transform colormapname">
+
+  <script>
+    Polymer({});
   </script>
 </polymer-element>
 
+
+
 <!-- Use element -->
-<polymer-colormap>Minimum: </polymer-colormap>
+<colormap-controls> </colormap-controls>
+<colormap-gradient></colormap-gradient>
 
 </body>
