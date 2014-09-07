@@ -7,14 +7,16 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
 
   <link href="css/style.css" rel="stylesheet" type="text/css"> 
-  <script src="js/platform.js"></script>
-  <script src="js/polymer.js"></script>
+  <script src="lib/js/platform.js"></script>
+  <script src="lib/js/d3.v3.min.js"></script>
+  <script src="lib/js/jquery-2.0.3.min.js"> </script>   
+  <script src="lib/js/polymer.js"></script>
 </head>
 
 
 <body>
 <!-- Define element -->
-<polymer-element name="colormap-controls" attributes="min max steps transform colormapname">
+<polymer-element name="colormap-controls" attributes="gradient_min gradient_max gradient_steps transform colormapname">
   <template>
     <ul id="sel_colormap">
     <li class="sel_heading"> Colormaps: </li>
@@ -46,9 +48,9 @@
 
   <script>
   Polymer({
-      min: 0, // Default value
-      max: 'max',
-      steps: 20,
+      gradient_min: 0, // Default value
+      gradient_max: 'max',
+      gradient_steps: 20,
       colormapname: 'blue',
       transform: 'linear',
 
@@ -85,14 +87,24 @@ var ColorMapControls = document.registerElement('colormap-ccontrols', {
 });
 */
   </script>
-  <script src="js/ui.js"></script>
+  <script src="js/ui_controls.js"></script>
 </polymer-element>
 
 
 <polymer-element name="colormap-gradient" attributes="min max steps transform colormapname">
 
   <script>
-    Polymer({});
+     Polymer({
+      min: 0, // Default value
+      max: 'max',
+      steps: 20,
+      colormapname: 'blue',
+      transform: 'linear',
+           ready: draw_colormap
+    })
+
+
+
   </script>
 </polymer-element>
 
@@ -100,6 +112,6 @@ var ColorMapControls = document.registerElement('colormap-ccontrols', {
 
 <!-- Use element -->
 <colormap-controls> </colormap-controls>
-<colormap-gradient></colormap-gradient>
+<colormap-gradient> </colormap-gradient>
 
 </body>
