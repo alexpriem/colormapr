@@ -15,16 +15,15 @@
 
 
 <body>
-<!-- Define element -->
-<polymer-element name="colormap-controls" attributes="gradient_min gradient_max gradient_steps transform colormapname">
-  <template>
+<!-- Define element 
+<polymer-element name="colormap-controls" attributes="gradient_min gradient_max gradient_steps transform colormapname"> -->
+  <template id="colormap_controls_template" bind="{{ data }}">
     <ul id="sel_colormap">
     <li class="sel_heading"> Colormaps: </li>
-    <template repeat="{{c in colormaps}}">
-    <li id="colormap_{{c.name}}" class="colormapname" data-colormap="{{c.name}}">{{c.name}}</li>  
-    </ul>
+    <template id="colormaplist" repeat="{{colormaps}}">
+        <li id="colormap_{{name}}" class="colormapname" data-colormap="{{c.name}}">{{name}}</li>      
     </template>
-
+    </ul>
 
     <ul id="sel_transform" class="selbox">
       <li class="sel_heading"> Transform: </li>
@@ -41,77 +40,87 @@
       <li class="swapname" id="inv_grad" > Maximum:  <input type="text" name="gradient_max" class="gradient_input" value="{{max}}" maxlength=5> </li>
       <li class="swapname" id="inv_grad" > Steps:  <input type="text" name="gradient_steps" class="gradient_input" value="{{steps}}" maxlength=5> </li>
     </ul>
-
   </template>
 
 
 
+<template id="simple">
+  <img style="vertical-align: middle;"
+       src="http://lorempixel.com/32/32" alt="awesome icon">
+  Click Me
+</template>
+
+
   <script>
-  Polymer({
-      gradient_min: 0, // Default value
-      gradient_max: 'max',
-      gradient_steps: 20,
-      colormapname: 'blue',
-      transform: 'linear',
+  
 
-
-      counterChanged: function() {
-        this.$.counterVal.classList.add('highlight');
-      },
-      increment: function() {
-        this.counter++;
-      },
-      ready: function () {
-        this.colormaps=[
-        {name:'blue'},
-        {name:'red'},
-        {name:'green'},
-        ];
-      }
-    });
-
-
-
-/*
 var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
+
 ColorMapControlsPrototype.createdCallback = function() {
-  this.textContent = "colormap controller";
-};
+    //t=document.getElementById('colormap_controls_template');  
+
+    console.log(this.id);
+   //var t = document.querySelector('#simple');  
+    var t = document.querySelector('#colormap_controls_template');   
+   // this.appendChild(document.importNode(t.content, true));  
+   // return
+  //};
+
+  //t=u.cloneNode(deep=true);
+   t.model = {data:{
+             min: 0,
+             max: Math.random(),
+             steps: 20,
+             colormaps: [{name:'red'},{name:'blue'},{name:'green'}]             
+           }
+          };
+  Platform.performMicrotaskCheckpoint(); 
+
+   //console.log(t.innerHTML);
+   this.appendChild(document.createTextNode(this.id));
+   this.appendChild(t); //document.importNode(t.content, true));  
+  this.appendChild(document.createTextNode(this.id));
+}; 
 
 ColorMapControlsPrototype.foo = function() {
-  console.log('ColorMapControlsPrototype() called');
+  console.log('ColorMapControlsPrototype() called');t
 };
 
-var ColorMapControls = document.registerElement('colormap-ccontrols', {
+var ColorMapControls = document.registerElement('colormap-controls', {
   prototype: ColorMapControlsPrototype
 });
-*/
+
+
+
   </script>
   <script src="js/ui_controls.js"></script>
-</polymer-element>
+
 
 
 <polymer-element name="colormap-gradient" attributes="min max steps transform colormapname">
 
+ <script src="js/ui_gradient.js"></script>
   <script>
      Polymer({
       min: 0, // Default value
       max: 'max',
       steps: 20,
       colormapname: 'blue',
-      transform: 'linear',
-           ready: draw_colormap
+      transform: 'linear'
+    //  ready: draw_colormap
     })
 
 
 
   </script>
+  
 </polymer-element>
 
 
 
 <!-- Use element -->
-<colormap-controls> </colormap-controls>
+<colormap-controls id="cc_a"> </colormap-controls>
+<colormap-controls id="cc_b"> </colormap-controls>
 <colormap-gradient> </colormap-gradient>
 
 </body>
