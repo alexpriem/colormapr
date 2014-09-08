@@ -7,11 +7,14 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
 
   <link href="css/style.css" rel="stylesheet" type="text/css"> 
-  <script src="lib/js/platform.js"></script>
-  <script src="lib/js/d3.v3.min.js"></script>
-  <script src="lib/js/jquery-2.0.3.min.js"> </script>   
-  <script src="lib/js/polymer.js"></script>
-</head>
+    <script src="lib/js/d3.v3.min.js"></script>
+    <script src="lib/js/handlebars-v2.0.0.js"></script>    
+    <script src="lib/js/document-register-element.js"></script>        
+    <script src="lib/js/jquery-2.0.3.min.js"> </script>   
+
+    <script src="js/ui_controls.js"> </script> 
+    <script src="js/ui_gradient.js"> </script> 
+  </head>
 
 
 <body>
@@ -44,78 +47,41 @@
 
 
 
-<template id="simple">
-  <img style="vertical-align: middle;"
-       src="http://lorempixel.com/32/32" alt="awesome icon">
-  Click Me
-</template>
+<script id="entry-template" type="text/x-handlebars-template">
+    <ul id="sel_colormap">
+    <li class="sel_heading"> Colormaps: </li>
 
+    {{#colormaps}}
+    <li id="colormap_{{name}}" class="colormapname" data-colormap="{{name}}">{{name}}</li>  
+    {{/colormaps}}
 
-  <script>
+    <ul id="sel_transform" class="selbox">
+      <li class="sel_heading"> Transform: </li>
+      <li class="transformname" id="trans_linear" data-transform="linear"> linear</li>
+      <li class="transformname" id="trans_sqrt" data-transform="sqrt"> sqrt</li>
+      <li class="transformname" id="trans_log2" data-transform="log2"> log2</li>
+      <li class="transformname" id="trans_log10" data-transform="log10"> log10</li>  
+    </ul>
+
+    <ul id="sel_swap" class="selbox">
+      <li class="sel_heading"> Gradient:</li>
+      <li class="swapname" id="inv_grad" > invert gradient</li>
+      <li class="swapname" id="inv_grad" > Mininum: <input type="text" name="gradient_min" class="gradient_input" value="{{min}}" maxlength=5  >  </li>
+      <li class="swapname" id="inv_grad" > Maximum:  <input type="text" name="gradient_max" class="gradient_input" value="{{max}}" maxlength=5> </li>
+      <li class="swapname" id="inv_grad" > Steps:  <input type="text" name="gradient_steps" class="gradient_input" value="{{steps}}" maxlength=5> </li>
+    </ul>
+  </script>
+
+<div id="colormap_controls_a">
+bla
+</div>
   
 
-var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
-
-ColorMapControlsPrototype.createdCallback = function() {
-    //t=document.getElementById('colormap_controls_template');  
-
-    console.log(this.id);
-   //var t = document.querySelector('#simple');  
-    var t = document.querySelector('#colormap_controls_template');   
-   // this.appendChild(document.importNode(t.content, true));  
-   // return
-  //};
-
-  //t=u.cloneNode(deep=true);
-   t.model = {data:{
-             min: 0,
-             max: Math.random(),
-             steps: 20,
-             colormaps: [{name:'red'},{name:'blue'},{name:'green'}]             
-           }
-          };
-  Platform.performMicrotaskCheckpoint(); 
-
-   //console.log(t.innerHTML);
-   this.appendChild(document.createTextNode(this.id));
-   this.appendChild(t); //document.importNode(t.content, true));  
-  this.appendChild(document.createTextNode(this.id));
-}; 
-
-ColorMapControlsPrototype.foo = function() {
-  console.log('ColorMapControlsPrototype() called');t
-};
-
-var ColorMapControls = document.registerElement('colormap-controls', {
-  prototype: ColorMapControlsPrototype
-});
 
 
 
-  </script>
-  <script src="js/ui_controls.js"></script>
 
-
-
-<polymer-element name="colormap-gradient" attributes="min max steps transform colormapname">
-
- <script src="js/ui_gradient.js"></script>
-  <script>
-     Polymer({
-      min: 0, // Default value
-      max: 'max',
-      steps: 20,
-      colormapname: 'blue',
-      transform: 'linear'
-    //  ready: draw_colormap
-    })
-
-
-
-  </script>
-  
-</polymer-element>
-
+    <script src="js/ui.js" >  </script>
 
 
 <!-- Use element -->
