@@ -1,18 +1,30 @@
 // gradient 
 
 
-function draw_colormap () {
 
-console.log("draw_colormap");
+var colormapname='cbs_blue';
+var colormap=colormaps[colormapname](gradsteps);
+var gradientnr=0;
 
-chart = d3.select("#heatmap_svg");
+function draw_colormap (topnode) {
+
+console.log("draw_colormap", topnode, topnode.id);
+
+chart=d3.select(topnode).append('svg');
+
+console.log('id:',chart );
+gradientnr=gradientnr+1;
+
+chart.attr("id",'g'+gradientnr);
+
+//chart = d3.select("#svg_"+topnode);
 $('.colormap').remove();
 var barlength=200;
 var barstep=(barlength/gradsteps);
 console.log(barlength, barstep);
-chart.append("rect")
+chart.append("rect")  
 	.attr("class","colormap")
-	.attr("x",imgwidth+75)
+	.attr("x",75)
 	.attr("y",25+10)
 	.attr("width",20)
 	.attr("height",barlength)
@@ -24,7 +36,7 @@ chart.append("rect")
  	color=colormap[i-1];
 	chart.append("rect")
 		.attr("class","colormap")
-		.attr("x",imgwidth+76)
+		.attr("x",76)
 		.attr("y",25+10+barlength-barstep*i-1)
 		.attr("width",20)
 		.attr("height",barstep)
@@ -48,7 +60,7 @@ chart.append("rect")
   	var colorScale=d3.scale.pow().exponent(0.5);
   }
 
-  console.log('Colorscale, datadomain',datamin, datamax);
+//  console.log('Colorscale, datadomain',datamin, datamax);
   console.log('Colorscale, domain',tgradmin, tgradmax);
   colorScale.domain([tgradmax, tgradmin]);
   colorScale.range([0,barlength]); 
@@ -58,7 +70,7 @@ chart.append("rect")
   colorAxis.scale(colorScale)       
        .orient("right");
 
-  scalepos=imgwidth+95;
+  scalepos=95;
   chart.append("g")
         .attr("class","yaxis colormap")
         .attr("transform","translate("+scalepos+",35)")

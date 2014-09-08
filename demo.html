@@ -11,7 +11,9 @@
     <script src="lib/js/handlebars-v2.0.0.js"></script>    
     <script src="lib/js/document-register-element.js"></script>        
     <script src="lib/js/jquery-2.0.3.min.js"> </script>   
+    <script src="lib/js/chroma.min.js"> </script>   
 
+    <script src="js/colormaps.js"> </script> 
     <script src="js/ui_controls.js"> </script> 
     <script src="js/ui_gradient.js"> </script> 
   </head>
@@ -85,8 +87,13 @@ bla
 
 
 <!-- Use element -->
-<colormap-controls id="cc_a"> </colormap-controls>
-<colormap-controls id="cc_b"> </colormap-controls>
-<colormap-gradient> </colormap-gradient>
+<table><tr>
+    <td> <colormap-controls id="cc_a"> </colormap-controls></td>
+    <td> <colormap-controls id="cc_b"> </colormap-controls></td>
+    <td> <colormap-controls-flat id="cc_c"> </colormap-controls></td>
+    <td><colormap-gradient id="cg_a"> </colormap-gradient></td>
+    <td><colormap-gradient id="cg_b"> </colormap-gradient></td>
+    </tr>
+</table>
 
 </body>

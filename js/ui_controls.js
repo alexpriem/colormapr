@@ -1,4 +1,9 @@
 
+var transform='linear';
+var gradmax='max';
+var gradmin=0;
+var gradsteps=20;
+
 var enter_selectie=function enter_selectie (evt) {
 	$(this).addClass('hover_selectie');
 }
