@@ -3,19 +3,25 @@
 function init_controls (node) {
 
     console.log('created:', node.id);
+
     var source   = $("#entry-template").html();        
     var template = Handlebars.compile(source); 
     var data = {
+         widget_id : node.id,
          min: 0,
          max: Math.random(),
          steps: 20,
-         colormaps: [{name:'red'},{name:'blue'},{name:'green'}]             
+         colormaps: [{name:'red', widget_id:node.id},
+                     {name:'blue', widget_id:node.id},
+                     {name:'green', widget_id:node.id}]             
        };
     node.innerHTML =template(data);
 
     var transform='linear';
 
-    init_gradient_transforms();                            
+    console.log('gradient:', node.getAttribute('gradient'));
+    init_gradient_transforms(node.id);                            
+    init_colormaps(node.id);
 
 }
 

@@ -172,3 +172,8 @@ padding-left:650px;
 #printcode{
 font-family: "Lucida Console", Monaco, monospace;
 }
+
+
+td {
+vertical-align: top;
+}

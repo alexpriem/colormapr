@@ -50,27 +50,30 @@
 
 
 <script id="entry-template" type="text/x-handlebars-template">
-    <ul id="sel_colormap">
-    <li class="sel_heading"> Colormaps: </li>
-
+    <ul id="sel_colormap_{{widget_id}}" class="selbox">
+    <li class="sel_heading"> Colormaps: </li>    
     {{#colormaps}}
-    <li id="colormap_{{name}}" class="colormapname" data-colormap="{{name}}">{{name}}</li>  
+    <li id="colormap_{{name}}_{{widget_id}}" class="colormapname" data-colormap="{{name}}">{{name}}</li>  
     {{/colormaps}}
-
-    <ul id="sel_transform" class="selbox">
-      <li class="sel_heading"> Transform: </li>
-      <li class="transformname" id="trans_linear" data-transform="linear"> linear</li>
-      <li class="transformname" id="trans_sqrt" data-transform="sqrt"> sqrt</li>
-      <li class="transformname" id="trans_log2" data-transform="log2"> log2</li>
-      <li class="transformname" id="trans_log10" data-transform="log10"> log10</li>  
     </ul>
 
-    <ul id="sel_swap" class="selbox">
+    <ul id="sel_transform_{{widget_id}}" class="selbox">
+      <li class="sel_heading"> Transform: </li>
+      <li class="transformname" id="trans_linear_{{widget_id}}" data-transform="linear"> linear</li>
+      <li class="transformname" id="trans_sqrt_{{widget_id}}" data-transform="sqrt"> sqrt</li>
+      <li class="transformname" id="trans_log2_{{widget_id}}" data-transform="log2"> log2</li>
+      <li class="transformname" id="trans_log10_{{widget_id}}" data-transform="log10"> log10</li>  
+    </ul>
+
+    <ul id="sel_swap_{{widget_id}}" class="selbox">
       <li class="sel_heading"> Gradient:</li>
-      <li class="swapname" id="inv_grad" > invert gradient</li>
-      <li class="swapname" id="inv_grad" > Mininum: <input type="text" name="gradient_min" class="gradient_input" value="{{min}}" maxlength=5  >  </li>
-      <li class="swapname" id="inv_grad" > Maximum:  <input type="text" name="gradient_max" class="gradient_input" value="{{max}}" maxlength=5> </li>
-      <li class="swapname" id="inv_grad" > Steps:  <input type="text" name="gradient_steps" class="gradient_input" value="{{steps}}" maxlength=5> </li>
+      <li class="swapname" id="invert_{{widget_id}}" > invert gradient</li>
+      <li class="swapname" id="header_min_{{widget_id}}" > Mininum: 
+              <input type="text" id="min_{{widget_id}}" name="gradient_min" class="gradient_input" value="{{min}}" maxlength=5  >  </li>
+      <li class="swapname" id="header_max_{{widget_id}}" > Maximum:  
+              <input type="text" id="max_{{widget_id}}" name="gradient_max" class="gradient_input" value="{{max}}" maxlength=5> </li>
+      <li class="swapname" id="header_steps_{{widget_id}}" > Steps:  
+              <input type="text" id="steps_{{widget_id}}" name="gradient_steps" class="gradient_input" value="{{steps}}" maxlength=5> </li>
     </ul>
   </script>
 
@@ -88,11 +91,11 @@ bla
 
 <!-- Use element -->
 <table><tr>
-    <td> <colormap-controls id="cc_a"> </colormap-controls></td>
-    <td> <colormap-controls id="cc_b"> </colormap-controls></td>
-    <td> <colormap-controls-flat id="cc_c"> </colormap-controls></td>
-    <td><colormap-gradient id="cg_a"> </colormap-gradient></td>
-    <td><colormap-gradient id="cg_b"> </colormap-gradient></td>
+    <td valign="top" > <colormap-controls id="cc_a" gradient="cg_a"> </colormap-controls></td>
+    <td valign="top" > <colormap-controls id="cc_b" gradient="cg_b"> </colormap-controls></td>
+    <td valign="top"> <colormap-controls-flat id="cc_c"> </colormap-controls></td>
+    <td valign="top"> <colormap-gradient id="cg_a"> </colormap-gradient></td>
+    <td valign="top"> <colormap-gradient id="cg_b"> </colormap-gradient></td>
     </tr>
 </table>
 

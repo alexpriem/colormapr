@@ -5,7 +5,7 @@ var colormap_gray=function colormap_gray (N) {
 	var step=256/N;
 	var cmap=[];
 	var col=0;
-	for (var i=0; i<N; i++,c+=step){
+	for (var i=0; i<N; i++){
 		col+=step;
 		intcol=parseInt(col);
 		cmap.push([255-intcol,255-intcol,255-intcol]);
@@ -17,7 +17,7 @@ var colormap_blue=function colormap_blue (N) {
 	var step=256/N;
 	var cmap=[];
 	var col=256;
-	for (var i=0; i<N; i++,c+=step){
+	for (var i=0; i<N; i++){
 		col-=step;
 		intcol=parseInt(col);
 		cmap.push([intcol,intcol,255]);
@@ -214,16 +214,16 @@ return cmap;
 
 
 var colormaps={
-	'blue':colormap_blue,
+	'blue2':colormap_blue,
 	'gray':colormap_gray,
-	'cbs_blue':colormap_cbs_blue,
-	'cbs_green':colormap_cbs_green,
-	'cbs_red':colormap_cbs_red,
-	'cbs_hot':colormap_cbs_hot,
+	'blue':colormap_cbs_blue,
+	'green':colormap_cbs_green,
+	'red':colormap_cbs_red,	
 	'terrain':colormap_terrain,
 	'coolwarm':colormap_coolwarm,
 	'hot':colormap_hot,	
 	'hot2':colormap_hot2,		
+	'hot3':colormap_cbs_hot,
 	'ygb':colormap_ygb,
         };
 
