@@ -20,59 +20,32 @@
 
 
 <body>
-<!-- Define element 
-<polymer-element name="colormap-controls" attributes="gradient_min gradient_max gradient_steps transform colormapname"> -->
-  <template id="colormap_controls_template" bind="{{ data }}">
-    <ul id="sel_colormap">
-    <li class="sel_heading"> Colormaps: </li>
-    <template id="colormaplist" repeat="{{colormaps}}">
-        <li id="colormap_{{name}}" class="colormapname" data-colormap="{{c.name}}">{{name}}</li>      
-    </template>
-    </ul>
-
-    <ul id="sel_transform" class="selbox">
-      <li class="sel_heading"> Transform: </li>
-      <li class="transformname" id="trans_linear" data-transform="linear"> linear</li>
-      <li class="transformname" id="trans_sqrt" data-transform="sqrt"> sqrt</li>
-      <li class="transformname" id="trans_log2" data-transform="log2"> log2</li>
-      <li class="transformname" id="trans_log10" data-transform="log10"> log10</li>  
-    </ul>
-
-    <ul id="sel_swap" class="selbox">
-      <li class="sel_heading"> Gradient:</li>
-      <li class="swapname" id="inv_grad" > invert gradient</li>
-      <li class="swapname" id="inv_grad" > Mininum: <input type="text" name="gradient_min" class="gradient_input" value="{{min}}" maxlength=5  >  </li>
-      <li class="swapname" id="inv_grad" > Maximum:  <input type="text" name="gradient_max" class="gradient_input" value="{{max}}" maxlength=5> </li>
-      <li class="swapname" id="inv_grad" > Steps:  <input type="text" name="gradient_steps" class="gradient_input" value="{{steps}}" maxlength=5> </li>
-    </ul>
-  </template>
-
 
 
 <script id="entry-template" type="text/x-handlebars-template">
     <ul id="sel_colormap_{{widget_id}}" class="selbox">
     <li class="sel_heading"> Colormaps: </li>    
     {{#colormaps}}
-    <li id="colormap_{{name}}_{{widget_id}}"  class="colormapname" data-colormap="{{name}}" data-widget="{{widget_id}}">{{name}}</li>  
+    <li  class="colormapname colormapname_{{widget_id}}" id="colormap_{{name}}_{{widget_id}}" data-colormap="{{name}}" data-widget="{{widget_id}}">{{name}}</li>  
     {{/colormaps}}
     </ul>
 
     <ul id="sel_transform_{{widget_id}}" class="selbox">
       <li class="sel_heading"> Transform: </li>
-      <li class="transformname" id="trans_linear_{{widget_id}}" data-transform="linear" data-widget="{{widget_id}}"> linear</li>
-      <li class="transformname" id="trans_sqrt_{{widget_id}}" data-transform="sqrt" data-widget="{{widget_id}}"> sqrt</li>
-      <li class="transformname" id="trans_log2_{{widget_id}}" data-transform="log2" data-widget="{{widget_id}}"> log2</li>
-      <li class="transformname" id="trans_log10_{{widget_id}}" data-transform="log10" data-widget="{{widget_id}}"> log10</li>  
+      <li class="transformname transformname_{{widget_id}}" id="trans_linear_{{widget_id}}" data-transform="linear" data-widget="{{widget_id}}"> linear</li>
+      <li class="transformname transformname_{{widget_id}}" id="trans_sqrt_{{widget_id}}" data-transform="sqrt" data-widget="{{widget_id}}"> sqrt</li>
+      <li class="transformname transformname_{{widget_id}}" id="trans_log2_{{widget_id}}" data-transform="log2" data-widget="{{widget_id}}"> log2</li>
+      <li class="transformname transformname_{{widget_id}}" id="trans_log10_{{widget_id}}" data-transform="log10" data-widget="{{widget_id}}"> log10</li>  
     </ul>
 
     <ul id="sel_swap_{{widget_id}}" class="selbox">
       <li class="sel_heading"> Gradient:</li>
-      <li class="swapname" id="invert_{{widget_id}}" data-widget="{{widget_id}}"> invert gradient</li>
-      <li class="swapname" id="header_min_{{widget_id}}" > Mininum: 
+      <li class="swapname swapname_{{widget_id}}" id="invert_{{widget_id}}" data-widget="{{widget_id}}"> invert gradient</li>
+      <li class="swapname swapname_{{widget_id}}" id="header_min_{{widget_id}}" > Mininum: 
               <input type="text" id="min_{{widget_id}}" data-widget="{{widget_id}}" name="gradient_min" class="gradient_input" value="{{min}}" maxlength=5  >  </li>
-      <li class="swapname" id="header_max_{{widget_id}}"  > Maximum:  
+      <li class="swapname swapname_{{widget_id}}" id="header_max_{{widget_id}}"  > Maximum:  
               <input type="text" id="max_{{widget_id}}" data-widget="{{widget_id}}" name="gradient_max" class="gradient_input" value="{{max}}" maxlength=5> </li>
-      <li class="swapname" id="header_steps_{{widget_id}}" > Steps:  
+      <li class="swapname swapname_{{widget_id}}" id="header_steps_{{widget_id}}" > Steps:  
               <input type="text" id="steps_{{widget_id}}" data-widget="{{widget_id}}" name="gradient_steps" class="gradient_input" value="{{steps}}" maxlength=5> </li>
     </ul>
   </script>

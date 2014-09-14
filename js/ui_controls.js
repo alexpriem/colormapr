@@ -66,9 +66,9 @@ var click_transform=function click_size (evt) {
 
 function init_gradient_transforms(widget_id) {
 
- 	$('.transformname').on('click',click_transform);
- 	$('.transformname').on('mouseenter ',enter_selectie);
-  	$('.transformname').on('mouseout ',leave_selectie);
+ 	$('.transformname_'+widget_id).on('click',click_transform);
+ 	$('.transformname_'+widget_id).on('mouseenter ',enter_selectie);
+  	$('.transformname_'+widget_id).on('mouseout ',leave_selectie);
   	$('#trans_'+transform+'_'+widget_id).addClass('active_selectie');	  	
   	tgradmax=gradmax;
   	tgradmin=gradmin;
@@ -90,21 +90,6 @@ function click_data_transform () {
 	} else {
 		$(this).removeClass('active_selectie');
 	}
-	
-}
-
-
-
-var click_colormap=function click_colormap (evt) {
-
-	colormapname=$(this).attr('data-colormap');	
-	console.log('click_colormap',colormapname);
-	colormap=colormaps[colormapname](gradsteps);
-	colormaplength=colormap.length-1;
-	console.log('click_colormap',colormapname,  colormaplength);
-	$('.colormapname').removeClass('active_selectie');
-	$(this).addClass('active_selectie');
-	
 
 	widget_id=$(this).attr('data-widget');
 	topnode=document.getElementById(widget_id);
@@ -116,12 +101,32 @@ var click_colormap=function click_colormap (evt) {
 
 
 
+var click_colormap=function click_colormap (evt) {
+
+	colormapname=$(this).attr('data-colormap');			
+	widget_id=$(this).attr('data-widget');
+	console.log('click_colormap',colormapname,  colormaplength);
+	$('.colormapname_'+widget_id).removeClass('active_selectie');
+	$(this).addClass('active_selectie');
+	
+	topnode=document.getElementById(widget_id);
+	gradient=topnode.getAttribute('gradient');
+	gradient_node=document.getElementById(gradient);
+	gradient_node.colormapname=colormapname;
+	gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
+	
+	draw_colormap (gradient_node);
+	return false;
+}
+
+
+
 function init_colormaps(widget_id)
 {
 
-$('.colormapname').on('click',click_colormap);
-$('.colormapname').on('mouseenter ',enter_selectie);
-$('.colormapname').on('mouseout ',leave_selectie);
+$('.colormapname_'+widget_id).on('click',click_colormap);
+$('.colormapname_'+widget_id).on('mouseenter ',enter_selectie);
+$('.colormapname_'+widget_id).on('mouseout ',leave_selectie);
 
 $('#colormap_'+colormapname+'_'+widget_id).addClass('active_selectie');
  
