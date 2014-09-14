@@ -48,7 +48,7 @@ function init_sizes(widget_id, xpixels, ypixels) {
 
 
 
-var click_transform=function click_size (evt) {
+var click_transform=function click_transform (evt) {
 
 	transform=$(this).attr('data-transform');
 	$('.transformname ').removeClass('active_selectie');
@@ -57,8 +57,12 @@ var click_transform=function click_size (evt) {
 /*	tgradmax=gradmax;
 	tgradmin=gradmin;
 */	
-	console.log("click_transform:", transform,tgradmin, tgradmax);				
-	draw_heatmap();
+	widget_id=$(this).attr('data-widget');
+	topnode=document.getElementById(widget_id);
+	gradient=topnode.getAttribute('gradient');
+	gradient_node=document.getElementById(gradient);
+		
+	draw_colormap (gradient_node);		
 	return false;
 }
 
@@ -70,8 +74,6 @@ function init_gradient_transforms(widget_id) {
  	$('.transformname_'+widget_id).on('mouseenter ',enter_selectie);
   	$('.transformname_'+widget_id).on('mouseout ',leave_selectie);
   	$('#trans_'+transform+'_'+widget_id).addClass('active_selectie');	  	
-  	tgradmax=gradmax;
-  	tgradmin=gradmin;
 }
 
 
@@ -95,6 +97,7 @@ function click_data_transform () {
 	topnode=document.getElementById(widget_id);
 	gradient=topnode.getAttribute('gradient');
 	gradient_node=document.getElementById(gradient);
+
 	draw_colormap (gradient_node);
 	return false;
 }
@@ -118,6 +121,7 @@ var click_colormap=function click_colormap (evt) {
 	draw_colormap (gradient_node);
 	return false;
 }
+
 
 
 
