@@ -1,6 +1,5 @@
 
 
-
 var colormap_gray=function colormap_gray (N) {	
 	var step=256/N;
 	var cmap=[];
@@ -13,7 +12,7 @@ var colormap_gray=function colormap_gray (N) {
   return cmap;
 }
 
-var colormap_blue=function colormap_blue (N) {
+var colormap_blue2=function colormap_blue (N) {
 	var step=256/N;
 	var cmap=[];
 	var col=256;
@@ -135,6 +134,19 @@ for (i=0; i<N; i++){
 return cmap;
 }
 
+var colormap_hot3=function colormap_hot3(N){
+    
+scale=chroma.scale(['white', '#ffce00', '#ffae00', 'black']).correctLightness(true);
+cmap=[];
+frac=1.0/N;
+for (i=0; i<N; i++){
+	rgb=scale(i*frac).rgb();
+	cmap.push([parseInt(rgb[0]),parseInt(rgb[1]),parseInt(rgb[2])]);
+}
+return cmap;
+}
+
+
 var colormap_ygb=function colormap_ygb(N){
     
 scale=chroma.scale(['yellow', 'green', 'blue']);
@@ -148,7 +160,7 @@ return cmap;
 }
 
 
-var colormap_cbs_blue=function colormap_cbs_blue(N){
+var colormap_blue=function colormap_blue(N){
 
 scale=chroma.scale(['white', '#d2ecf7','#9cd7ef','#00a1cd','#008dd1','#004b9a', '#002c61']);
 
@@ -173,7 +185,7 @@ for (i=0; i<N; i++){
 return cmap;
 }
 
-var colormap_cbs_red=function colormap_cbs_red(N){
+var colormap_red=function colormap_red(N){
     
 scale=chroma.scale(['white', '#fee4c7','#fccb8d','#f39200','#ea5906','#e4002c', '#af081f']).correctLightness(true);
 cmap=[];
@@ -185,7 +197,7 @@ for (i=0; i<N; i++){
 return cmap;
 }
 
-var colormap_cbs_green=function colormap_cbs_green(N){
+var colormap_green=function colormap_green(N){
     
 scale=chroma.scale(['white', '#ecf2d0','#dae49b','#afcb05','#85bc22','#00a139', '#007f2c']).correctLightness(true);
 cmap=[];
@@ -199,31 +211,22 @@ return cmap;
 
 
 
-var colormap_cbs_hot=function colormap_cbs_hot(N){
-    
-scale=chroma.scale(['white', '#ffce00', '#ffae00', 'black']).correctLightness(true);
-cmap=[];
-frac=1.0/N;
-for (i=0; i<N; i++){
-	rgb=scale(i*frac).rgb();
-	cmap.push([parseInt(rgb[0]),parseInt(rgb[1]),parseInt(rgb[2])]);
-}
-return cmap;
-}
 
 
 
-var colormaps={
-	'blue2':colormap_blue,
-	'gray':colormap_gray,
-	'blue':colormap_cbs_blue,
-	'green':colormap_cbs_green,
-	'red':colormap_cbs_red,	
-	'terrain':colormap_terrain,
-	'coolwarm':colormap_coolwarm,
-	'hot':colormap_hot,	
-	'hot2':colormap_hot2,		
-	'hot3':colormap_cbs_hot,
-	'ygb':colormap_ygb,
+
+
+var colormaps={              
+      'blue':colormap_blue,
+      'blue2':colormap_blue2,
+      'green':colormap_green,
+      'red':colormap_red, 
+      'gray':colormap_gray,
+      'terrain':colormap_terrain,
+      'coolwarm':colormap_coolwarm,
+      'hot':colormap_hot, 
+      'hot2':colormap_hot2,   
+      'hot3':colormap_hot3,
+      'ygb':colormap_ygb,
         };
 

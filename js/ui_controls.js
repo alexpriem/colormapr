@@ -3,6 +3,8 @@ var transform='linear';
 var gradmax='max';
 var gradmin=0;
 var gradsteps=20;
+var colormapname='blue';
+
 
 var enter_selectie=function enter_selectie (evt) {
 	$(this).addClass('hover_selectie');
@@ -88,7 +90,7 @@ function click_data_transform () {
 	} else {
 		$(this).removeClass('active_selectie');
 	}
-	draw_heatmap();
+	
 }
 
 
@@ -104,9 +106,11 @@ var click_colormap=function click_colormap (evt) {
 	$(this).addClass('active_selectie');
 	
 
-	topnode=document.getElementById('cg_a');
-	draw_colormap (topnode) 
-	draw_heatmap();
+	widget_id=$(this).attr('data-widget');
+	topnode=document.getElementById(widget_id);
+	gradient=topnode.getAttribute('gradient');
+	gradient_node=document.getElementById(gradient);
+	draw_colormap (gradient_node);
 	return false;
 }
 

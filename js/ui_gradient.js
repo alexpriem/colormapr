@@ -2,10 +2,6 @@
 
 //FIXME:init
 
-var colormapname='blue';
-var colormap=colormaps[colormapname](gradsteps);
-var gradientnr=0;
-
 var maxval=100;  // FIXME: function
 var minval=0;
 
@@ -20,16 +16,21 @@ var svg=d3.select('#'+topnode.id).append('svg')
 
 
 
+
 svg.attr('width',150);
 svg.attr('height',300);
 var chart=svg.append('svg:g');
 
 console.log('id:',chart );
-gradientnr=gradientnr+1;
+
+svg.attr("id",'g_'+topnode.id);
+chart.attr("id",'g_'+topnode.id);
 
 
-svg.attr("id",'g'+gradientnr);
-chart.attr("id",'g'+gradientnr);
+var gradient_min=topnode.getAttribute('gradient_min');
+var gradient_max=topnode.getAttribute('gradient_min');
+var gradient_steps=topnode.getAttribute('gradient_min');
+var colormap=topnode.colormap;
 
 
 //chart = d3.select("#svg_"+topnode);
@@ -48,7 +49,6 @@ chart.append("rect")
 	.style("stroke-width","1px");
 
 //console.log('chartexit:', chart[0][0].innerHTML);
-//if (gradientnr==2) return;
 
  for (i=1; i<=gradsteps; i++) {
  	color=colormap[i-1];
@@ -115,4 +115,56 @@ chart.append("rect")
  // console.log('chartexit:',chart[0][0].innerHTML);
  // console.log(topnode.id);
  // topnode.innerHTML =chart[0][0].innerHTML;
+}
+
+
+
+function init_colormap (topnode) {
+
+  console.log('init_colormap');
+
+  if (!topnode.hasAttribute('gradient_min')) {
+    topnode.setAttribute('gradient_min',0);
+  }
+
+  if (!topnode.hasAttribute('gradient_max')) {
+    topnode.setAttribute('gradient_max',100);
+  }
+  if (!topnode.hasAttribute('gradient_steps')) {
+    topnode.setAttribute('gradient_steps',20);
+  }
+
+  if (!('colormaps' in topnode)) { 
+    console.log('insert colormaps');    
+    var colormaps={              
+            'blue':colormap_blue,
+            'blue2':colormap_blue2,
+            'green':colormap_green,
+            'red':colormap_red, 
+            'gray':colormap_gray,
+            'terrain':colormap_terrain,
+            'coolwarm':colormap_coolwarm,
+            'hot':colormap_hot, 
+            'hot2':colormap_hot2,   
+            'hot3':colormap_hot3,
+            'ygb':colormap_ygb,
+              };
+            console.log(colormaps);
+      topnode.colormaps=colormaps;
+  }
+  if (!topnode.hasAttribute('colormapname')) {
+    topnode.setAttribute('colormapname','blue');
+  }
+
+  var colormaps=topnode.colormaps;
+  var gradsteps=topnode.getAttribute('gradient_steps');
+  var colormapname=topnode.getAttribute('colormapname');
+  var colormap=colormaps[colormapname](gradsteps);
+  topnode.colormap=colormap;
+  console.log('calc_colormap:',colormap);
+
+
+  topnode.setAttribute('colormap',colormap);
+
+  draw_colormap(topnode);
 }

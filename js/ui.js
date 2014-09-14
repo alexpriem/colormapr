@@ -29,24 +29,19 @@ function init_controls (node) {
 
     var init_page=function expand () {
 
+        console.log(colormaps);
         var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
         ColorMapControlsPrototype.createdCallback = function() {
                             init_controls(this);
         };
 
-        ColorMapControlsPrototype.foo = function() {
-        console.log('ColorMapControlsPrototype() called');
-        };
-
-        var ColorMapControls = document.registerElement('colormap-controls', {prototype: ColorMapControlsPrototype});
-
-    
         var ColorMapGradientPrototype = Object.create(HTMLElement.prototype);
         ColorMapGradientPrototype.createdCallback = function() {            
-            draw_colormap (this);
+            init_colormap (this);
         }
         var ColorMapGradient = document.registerElement('colormap-gradient', {prototype: ColorMapGradientPrototype});        
-
+        
+        var ColorMapControls = document.registerElement('colormap-controls', {prototype: ColorMapControlsPrototype});       //order is important
         console.log('init done');
 
     }
