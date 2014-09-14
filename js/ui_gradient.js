@@ -1,9 +1,5 @@
 // gradient 
 
-//FIXME:init
-
-var maxval=100;  // FIXME: function
-var minval=0;
 
 
 function draw_colormap (topnode) {
@@ -15,7 +11,8 @@ topnode.removeChild(child);
 var svg=d3.select('#'+topnode.id).append('svg')
 
 
-
+var width=topnode.getAttribute('width');
+var height=topnode.getAttribute('height');
 
 svg.attr('width',150);
 svg.attr('height',300);
@@ -27,9 +24,9 @@ svg.attr("id",'g_'+topnode.id);
 chart.attr("id",'g_'+topnode.id);
 
 
-var gradient_min=topnode.getAttribute('gradient_min');
-var gradient_max=topnode.getAttribute('gradient_min');
-var gradient_steps=topnode.getAttribute('gradient_min');
+var gradmin=topnode.getAttribute('gradient_min');
+var gradmax=topnode.getAttribute('gradient_max');
+var gradsteps=topnode.getAttribute('gradient_steps');
 var colormap=topnode.colormap;
 
 
@@ -66,21 +63,7 @@ chart.append("rect")
 
 
 
- // console.log(gradmin, gradmax, tgradmin, tgradmax, minval, maxval);
-  if (gradmax=='max') {
-    tgradmax=maxval;  
-  } else {
-    tgradmax=gradmax;
-  }
-  if (gradmax=='min') {
-    tgradmin=minval;
-  } else {
-    tgradmin=gradmin;
-  }
-  //console.log(gradmin, gradmax, tgradmin, tgradmax, minval, maxval);
-
-
-
+ 
   if (transform=='linear') {
 	var colorScale=d3.scale.linear();
   }  
@@ -95,8 +78,8 @@ chart.append("rect")
   }
 
 //  console.log('Colorscale, datadomain',datamin, datamax);
-  console.log('Colorscale, domain',tgradmin, tgradmax);
-  colorScale.domain([tgradmax, tgradmin]);
+  //console.log('Colorscale, domain',tgradmin, tgradmax);
+  colorScale.domain([gradmax, gradmin]);
   colorScale.range([0,barlength]); 
   colorScale.ticks(8);
 
@@ -122,6 +105,14 @@ chart.append("rect")
 function init_colormap (topnode) {
 
   console.log('init_colormap');
+
+  if (!topnode.hasAttribute('width')) {
+    topnode.setAttribute('width',150);
+  }
+
+   if (!topnode.hasAttribute('height')) {
+    topnode.setAttribute('height',300);
+  }
 
   if (!topnode.hasAttribute('gradient_min')) {
     topnode.setAttribute('gradient_min',0);
@@ -159,6 +150,7 @@ function init_colormap (topnode) {
   var colormaps=topnode.colormaps;
   var gradsteps=topnode.getAttribute('gradient_steps');
   var colormapname=topnode.getAttribute('colormapname');
+
   var colormap=colormaps[colormapname](gradsteps);
   topnode.colormap=colormap;
   console.log('calc_colormap:',colormap);
