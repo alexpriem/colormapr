@@ -12,7 +12,7 @@ var colormap_gray=function colormap_gray (N) {
   return cmap;
 }
 
-var colormap_blue2=function colormap_blue (N) {
+var colormap_blue2=function colormap_blue2 (N) {
 	var step=256/N;
 	var cmap=[];
 	var col=256;
@@ -215,18 +215,4 @@ return cmap;
 
 
 
-
-var colormaps={              
-      'blue':colormap_blue,
-      'blue2':colormap_blue2,
-      'green':colormap_green,
-      'red':colormap_red, 
-      'gray':colormap_gray,
-      'terrain':colormap_terrain,
-      'coolwarm':colormap_coolwarm,
-      'hot':colormap_hot, 
-      'hot2':colormap_hot2,   
-      'hot3':colormap_hot3,
-      'ygb':colormap_ygb,
-        };
 

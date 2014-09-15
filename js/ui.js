@@ -9,7 +9,7 @@ function init_controls (node) {
     var data = {
          widget_id : node.id,
          min: 0,
-         max: Math.random(),
+         max: parseInt(Math.random()*100),
          steps: 20,
          colormaps: [{name:'red', widget_id:node.id},
                      {name:'blue', widget_id:node.id},
@@ -22,14 +22,13 @@ function init_controls (node) {
     console.log('gradient:', node.getAttribute('gradient'));
     init_gradient_transforms(node.id);                            
     init_colormaps(node.id);
-
+    init_colormap_inputs(node.id);
 }
 
 
 
     var init_page=function expand () {
-
-        console.log(colormaps);
+        
         var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
         ColorMapControlsPrototype.createdCallback = function() {
                             init_controls(this);

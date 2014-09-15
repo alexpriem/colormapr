@@ -108,7 +108,7 @@ var click_colormap=function click_colormap (evt) {
 
 	colormapname=$(this).attr('data-colormap');			
 	widget_id=$(this).attr('data-widget');
-	console.log('click_colormap',colormapname,  colormaplength);
+	console.log('click_colormap',colormapname);
 	$('.colormapname_'+widget_id).removeClass('active_selectie');
 	$(this).addClass('active_selectie');
 	
@@ -116,7 +116,7 @@ var click_colormap=function click_colormap (evt) {
 	gradient=topnode.getAttribute('gradient');
 	gradient_node=document.getElementById(gradient);
 	gradient_node.colormapname=colormapname;
-	gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
+	gradient_node.colormap=gradient_node.colormaps[colormapname](gradient_node.gradsteps);
 	
 	draw_colormap (gradient_node);
 	return false;
@@ -134,8 +134,51 @@ $('.colormapname_'+widget_id).on('mouseout ',leave_selectie);
 
 $('#colormap_'+colormapname+'_'+widget_id).addClass('active_selectie');
  
- colormap=colormaps[colormapname](gradsteps);
- colormaplength=colormap.length-1;
- console.log('init_colormap:',colormapname,colormaplength,gradsteps,'#colormap_'+colormapname+'_'+widget_id);
+ //colormap=colormaps[colormapname](gradsteps); 
+ console.log('init_colormap:',colormapname,gradsteps,'#colormap_'+colormapname+'_'+widget_id);
 }
+
+
+
+
+function update_gradient (e) {
+
+	
+	console.log('update_gradient:');
+	if (e.keyCode == '13') {
+		widget_id=$(this).attr('data-widget');
+		gradmax=$('#max_'+widget_id).val();
+		gradsteps=$('#steps_'+widget_id).val();
+		gradmin=$('#min_'+widget_id).val();
+		console.log('update_gradient:',widget_id, gradmin, gradmax, gradsteps);
+
+
+		topnode=document.getElementById(widget_id);
+		gradient=topnode.getAttribute('gradient');
+		gradient_node=document.getElementById(gradient);	
+		var colormapname=gradient_node.getAttribute('colormapname');		
+		console.log('map/#',topnode, gradient, gradient_node);
+		console.log(gradient_node.colormaps)
+		console.log ('map:',colormapname, gradsteps);
+		console.log('grad:',gradient_node.colormaps[colormapname]);
+
+		gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
+		gradient_node.setAttribute('gradient_min', gradmin);
+		gradient_node.setAttribute('gradient_max',gradmax);
+		gradient_node.setAttribute('gradient_steps',gradsteps);
+		draw_colormap (gradient_node);
+	}
+}
+
+
+function init_colormap_inputs(widget_id) {
+
+	console.log('init_inputs');
+	$("#min_"+widget_id).on('keydown',update_gradient);
+	$("#max_"+widget_id).on('keydown',update_gradient);
+	$("#steps_"+widget_id).on('keydown',update_gradient);	
+}
+
+
+
 
