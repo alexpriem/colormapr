@@ -64,15 +64,22 @@ chart.append("rect")
 
 
 
- 
+  
   if (transform=='linear') {
 	var colorScale=d3.scale.linear();
   }  
   if (transform=='log10') {  	
   	var colorScale=d3.scale.log();
+    if (gradmin==0)  {      //bandaid
+        gradmin=1;
+      }
   }
   if (transform=='log2') {
   	var colorScale=d3.scale.log().base(2);
+    if (gradmin==0)  {
+        gradmin=1;
+      }
+
   }
   if (transform=='sqrt') {
   	var colorScale=d3.scale.pow().exponent(0.5);
@@ -167,6 +174,7 @@ function init_colormap (topnode) {
           colormapnames.push(colormapname);
       }
   }
+  console.log('')
   topnode.colormapnames=colormapnames;
   if (!topnode.hasAttribute('colormapname')) {
       topnode.setAttribute('colormapname',colormapnames[0]);
