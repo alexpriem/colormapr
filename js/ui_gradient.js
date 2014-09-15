@@ -27,6 +27,7 @@ chart.attr("id",'g_'+topnode.id);
 var gradmin=topnode.getAttribute('gradient_min');
 var gradmax=topnode.getAttribute('gradient_max');
 var gradsteps=topnode.getAttribute('gradient_steps');
+var transform=topnode.getAttribute('transform');
 var colormap=topnode.colormap;
 
 
@@ -104,7 +105,16 @@ chart.append("rect")
 
 function init_colormap (topnode) {
 
+
   console.log('init_colormap');
+  if (!('id' in topnode)){
+    console.log('No id for gradient element');
+  }
+  
+  if (!topnode.hasAttribute('controls')) {
+    console.log('No controls for gradient element #',topnode.id);
+  }
+  controlnode=document.getElementById(topnode.getAttribute('controls'));
 
   if (!topnode.hasAttribute('width')) {
     topnode.setAttribute('width',150);
@@ -125,6 +135,14 @@ function init_colormap (topnode) {
     topnode.setAttribute('gradient_steps',20);
   }
 
+   if (!topnode.hasAttribute('gradient_min')) {
+    topnode.setAttribute('gradient_min',0);
+  }
+
+   if (!topnode.hasAttribute('transform')) {
+    topnode.setAttribute('transform','linear');
+  }
+
   if (!('colormaps' in topnode)) { 
     console.log('insert colormaps');    
     var colormaps={              
@@ -143,9 +161,19 @@ function init_colormap (topnode) {
             console.log(colormaps);
       topnode.colormaps=colormaps;
   }
-  if (!topnode.hasAttribute('colormapname')) {
-    topnode.setAttribute('colormapname','blue');
+  colormapnames=[];
+  for (var colormapname in colormaps) {
+      if (colormaps.hasOwnProperty(colormapname)) {
+          colormapnames.push(colormapname);
+      }
   }
+  topnode.colormapnames=colormapnames;
+  if (!topnode.hasAttribute('colormapname')) {
+      topnode.setAttribute('colormapname',colormapnames[0]);
+  }
+
+
+  
 
   var colormaps=topnode.colormaps;
   var gradsteps=topnode.getAttribute('gradient_steps');
@@ -155,6 +183,7 @@ function init_colormap (topnode) {
   topnode.colormap=colormap;
   console.log('calc_colormap:',colormap);
 
+  init_controls(controlnode, topnode);
 
   topnode.setAttribute('colormap',colormap);
 

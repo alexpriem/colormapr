@@ -1,10 +1,4 @@
 
-var transform='linear';
-var gradmax='max';
-var gradmin=0;
-var gradsteps=20;
-var colormapname='blue';
-
 
 var enter_selectie=function enter_selectie (evt) {
 	$(this).addClass('hover_selectie');
@@ -51,24 +45,24 @@ function init_sizes(widget_id, xpixels, ypixels) {
 var click_transform=function click_transform (evt) {
 
 	transform=$(this).attr('data-transform');
-	$('.transformname ').removeClass('active_selectie');
-	$(this).addClass('active_selectie');
-
-/*	tgradmax=gradmax;
-	tgradmin=gradmin;
-*/	
 	widget_id=$(this).attr('data-widget');
+	
 	topnode=document.getElementById(widget_id);
 	gradient=topnode.getAttribute('gradient');
-	gradient_node=document.getElementById(gradient);
-		
+	gradient_node=document.getElementById(gradient);	
+	gradient_node.setAttribute('transform',transform);	
+	console.log('click_transform:', widget_id, gradient_node.id);
 	draw_colormap (gradient_node);		
+
+	$('.transformname_'+widget_id).removeClass('active_selectie');
+	$(this).addClass('active_selectie');
 	return false;
 }
 
 
 
-function init_gradient_transforms(widget_id) {
+function init_gradient_transforms(widget_id, transform) {
+
 
  	$('.transformname_'+widget_id).on('click',click_transform);
  	$('.transformname_'+widget_id).on('mouseenter ',enter_selectie);
@@ -104,6 +98,8 @@ function click_data_transform () {
 
 
 
+
+
 var click_colormap=function click_colormap (evt) {
 
 	colormapname=$(this).attr('data-colormap');			
@@ -116,7 +112,8 @@ var click_colormap=function click_colormap (evt) {
 	gradient=topnode.getAttribute('gradient');
 	gradient_node=document.getElementById(gradient);
 	gradient_node.colormapname=colormapname;
-	gradient_node.colormap=gradient_node.colormaps[colormapname](gradient_node.gradsteps);
+	var gradsteps=gradient_node.getAttribute('gradient_steps')
+	gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
 	
 	draw_colormap (gradient_node);
 	return false;
@@ -125,8 +122,9 @@ var click_colormap=function click_colormap (evt) {
 
 
 
-function init_colormaps(widget_id)
+function init_colormaps(widget_id, colormapname)
 {
+console.log('init_colormap:',colormapname,'#colormap_'+colormapname+'_'+widget_id);
 
 $('.colormapname_'+widget_id).on('click',click_colormap);
 $('.colormapname_'+widget_id).on('mouseenter ',enter_selectie);
@@ -135,7 +133,7 @@ $('.colormapname_'+widget_id).on('mouseout ',leave_selectie);
 $('#colormap_'+colormapname+'_'+widget_id).addClass('active_selectie');
  
  //colormap=colormaps[colormapname](gradsteps); 
- console.log('init_colormap:',colormapname,gradsteps,'#colormap_'+colormapname+'_'+widget_id);
+ 
 }
 
 
