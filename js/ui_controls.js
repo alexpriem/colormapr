@@ -111,7 +111,7 @@ var click_colormap=function click_colormap (evt) {
 	topnode=document.getElementById(widget_id);
 	gradient=topnode.getAttribute('gradient');
 	gradient_node=document.getElementById(gradient);
-	gradient_node.colormapname=colormapname;
+	gradient_node.setAttribute('colormapname',colormapname);
 	var gradsteps=gradient_node.getAttribute('gradient_steps')
 	gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
 	

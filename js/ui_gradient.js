@@ -4,7 +4,8 @@
 
 function draw_colormap (topnode) {
 
-console.log("draw_colormap", topnode, topnode.id);
+console.log("draw_colormap", topnode);
+console.log("draw colormap, id:",topnode.id);
 
 child=topnode.childNodes[0];
 topnode.removeChild(child);
@@ -192,14 +193,11 @@ function init_colormap (topnode) {
   console.log('calc_colormap:',colormap);
 
   init_controls(controlnode, topnode);
-
-  topnode.setAttribute('colormap',colormap);
-
   draw_colormap(topnode);
 }
 
 
-  var init_gradients=function expand () {
+  var init_gradients=function init__gradients () {
       
       var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
       ColorMapControlsPrototype.createdCallback = function() {     
@@ -213,4 +211,4 @@ function init_colormap (topnode) {
       var ColorMapControls = document.registerElement('colormap-controls', {prototype: ColorMapControlsPrototype}); 
 
       console.log('init done');
-  }
+  };
