@@ -197,3 +197,20 @@ function init_colormap (topnode) {
 
   draw_colormap(topnode);
 }
+
+
+  var init_gradients=function expand () {
+      
+      var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
+      ColorMapControlsPrototype.createdCallback = function() {     
+      };
+
+      var ColorMapGradientPrototype = Object.create(HTMLElement.prototype);
+      ColorMapGradientPrototype.createdCallback = function() {            
+          init_colormap (this);
+      }
+      var ColorMapGradient = document.registerElement('colormap-gradient', {prototype: ColorMapGradientPrototype}); 
+      var ColorMapControls = document.registerElement('colormap-controls', {prototype: ColorMapControlsPrototype}); 
+
+      console.log('init done');
+  }
