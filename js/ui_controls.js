@@ -17,27 +17,13 @@ var click_size=function click_size (evt) {
 }
 
 
-function init_sizes(widget_id, xpixels, ypixels) {
-
-	var html='<li class="sel_heading"> Sizes:</li>';
-		
-
-	html+='<li class="sizename" data-size="1">'+xpixels+"x"+ypixels+'</li>';
-	sizetable=[2,5,10,20,50,100,200,500,1000,2000,5000];
-	j=0;
-	size=sizetable[0];
-	while ((xpixels/size>9) && (ypixels/size)>9) {		
-		html+='<li class="sizename" data-size="'+size+'">'+Math.floor(xpixels/size)+"x"+Math.floor(ypixels/size)+'</li>';
-		j++;
-		size=sizetable[j];		
-	}
-	size=1;
-	$('#sel_size_'+widget_id).html(html);
-
-   $('.sizename').slice(0,1).addClass('active_selectie');	
-   $('.sizename').on('click',click_size);
-   $('.sizename').on('mouseenter ',enter_selectie);
-   $('.sizename').on('mouseout ',leave_selectie);
+function init_sizes(widget_id) {
+	   
+	console.log('init_sizes:', widget_id)
+   $('.sizename_'+widget_id).slice(0,1).addClass('active_selectie');	
+   $('.sizename_'+widget_id).on('click',click_size);
+   $('.sizename_'+widget_id).on('mouseenter ',enter_selectie);
+   $('.sizename_'+widget_id).on('mouseout ',leave_selectie);
  }
 
 
@@ -189,6 +175,33 @@ function init_controls (node, gradientnode) {
     for (i=0; i<colormapnames.length; i++){
         colormaps.push({name:colormapnames[i], widget_id:node.id});
     }
+
+	xpixels=gradientnode.getAttribute('xpixels');
+	ypixels=gradientnode.getAttribute('ypixels');
+	show_size=gradientnode.getAttribute('show_size');
+	sizes=[];
+	if (show_size=='true') {
+		show_size=true;
+	} else {
+		show_size=false;
+	}
+
+	if (show_size) {
+		sizetable=[2,5,10,20,50,100,200,500,1000,2000,5000];
+		j=0;
+		size=sizetable[0];		
+		while ((xpixels/size>9) && (ypixels/size)>9) {		
+			el={};
+			el.size_x_size=Math.floor(xpixels/size)+"x"+Math.floor(ypixels/size);
+			el.size=size;
+			el.sizenr=j;
+			el.widget_id=node.id;
+			j++;
+			size=sizetable[j];		
+			sizes.push(el);
+		}
+	}
+
     var source   = $("#entry-template").html();        
     var template = Handlebars.compile(source); 
     var data = {
@@ -197,16 +210,17 @@ function init_controls (node, gradientnode) {
          max: gradientnode.getAttribute('gradient_max'),
          steps: gradientnode.getAttribute('gradient_steps'),
          transform: gradientnode.getAttribute('transform'),
-         colormaps: colormaps                     
+         colormaps: colormaps, 
+         show_size: show_size,
+         sizes: sizes         
        };
     node.innerHTML =template(data);
-
-    var transform='linear';
 
     console.log('gradient:', node.getAttribute('gradient'));
     init_gradient_transforms(node.id, gradientnode.getAttribute('transform'));                            
     init_colormaps(node.id, gradientnode.getAttribute('colormapname'));
     init_colormap_inputs(node.id);
+    init_sizes(node.id);
 }
 
 

@@ -131,6 +131,9 @@ function init_colormap (topnode) {
 
   var defaults={ width: 150,
               height: 300,
+              xpixels: 500,
+              ypixels: 500,
+              show_size: 'true',
               gradient_min: 0,
               gradient_max: 100,
               gradient_steps: 20,
@@ -152,8 +155,10 @@ function init_colormap (topnode) {
   for (var keyword in defaults) {
       if (defaults.hasOwnProperty(keyword)) {
           if (!topnode.hasAttribute(keyword)){
-              console.log(keyword, defaults[keyword]);
-              topnode.setAttribute(keyword, defaults[keyword]);
+              //console.log(keyword, defaults[keyword]);
+              if (keyword!='colormaps') {
+                topnode.setAttribute(keyword, defaults[keyword]);
+              }
           }
       }
   }
