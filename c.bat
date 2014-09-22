@@ -1,5 +1,5 @@
-rem cd f:\cbs\uglifyJS2\bin\
-rem node f:\cbs\uglifyJS2\bin\uglifyjs F:\cbs\colormapr\js\colormaps.js F:\cbs\colormapr\js\ui_controls.js  F:\cbs\colormapr\js\ui_gradient.js f:\cbs\colormapr\js\template.js -o f:\cbs\colormapr\colormapr.js  
-rm -f f:\cbs\colormapr\colormapr.js  
-cat  F:\cbs\colormapr\js\colormaps.js F:\cbs\colormapr\js\ui_controls.js  F:\cbs\colormapr\js\ui_gradient.js > f:\cbs\colormapr\colormapr.js  
-copy f:\cbs\colormapr\colormapr.js   f:\cbs\heatmapr\lib\colormapr.js
+rem cd f:\src\uglifyJS2\bin\
+rem node \src\uglifyJS2\bin\uglifyjs \src\colormapr\js\colormaps.js \src\colormapr\js\ui_controls.js  F:\src\colormapr\js\ui_gradient.js \src\colormapr\js\template.js -o \src\colormapr\colormapr.js  
+rm -f \src\colormapr\colormapr.js  
+cat  \src\colormapr\js\colormaps.js \src\colormapr\js\ui_controls.js  \src\colormapr\js\ui_gradient.js > \src\colormapr\colormapr.js  
+copy \src\colormapr\colormapr.js   \src\heatmapr\lib\colormapr.js
