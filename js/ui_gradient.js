@@ -4,8 +4,9 @@
 
 function draw_colormap (topnode) {
 
-console.log("draw_colormap", topnode);
-console.log("draw colormap, id:",topnode.id);
+if (!('id' in topnode)) {
+  console.error('draw_colormap:gradient element needs id');
+}
 
 child=topnode.childNodes[0];
 topnode.removeChild(child);
@@ -113,47 +114,8 @@ chart.append("rect")
 
 function init_colormap (topnode) {
 
-
-  console.log('init_colormap');
-  if (!('id' in topnode)){
-    console.log('No id for gradient element');
-  }
-  
-  if (!topnode.hasAttribute('controls')) {
-    console.log('No controls for gradient element #',topnode.id);
-  }
-  controlnode=document.getElementById(topnode.getAttribute('controls'));
-
-  if (!topnode.hasAttribute('width')) {
-    topnode.setAttribute('width',150);
-  }
-
-   if (!topnode.hasAttribute('height')) {
-    topnode.setAttribute('height',300);
-  }
-
-  if (!topnode.hasAttribute('gradient_min')) {
-    topnode.setAttribute('gradient_min',0);
-  }
-
-  if (!topnode.hasAttribute('gradient_max')) {
-    topnode.setAttribute('gradient_max',100);
-  }
-  if (!topnode.hasAttribute('gradient_steps')) {
-    topnode.setAttribute('gradient_steps',20);
-  }
-
-   if (!topnode.hasAttribute('gradient_min')) {
-    topnode.setAttribute('gradient_min',0);
-  }
-
-   if (!topnode.hasAttribute('transform')) {
-    topnode.setAttribute('transform','linear');
-  }
-
-  if (!('colormaps' in topnode)) { 
-    console.log('insert colormaps');    
-    var colormaps={              
+  console.log('init_colormap'); 
+  var default_colormaps={              
             'blue':colormap_blue,
             'blue2':colormap_blue2,
             'green':colormap_green,
@@ -166,25 +128,53 @@ function init_colormap (topnode) {
             'hot3':colormap_hot3,
             'ygb':colormap_ygb,
               };
-            console.log(colormaps);
-      topnode.colormaps=colormaps;
+
+  var defaults={ width: 150,
+              height: 300,
+              gradient_min: 0,
+              gradient_max: 100,
+              gradient_steps: 20,
+              transform: 'linear',
+              colormaps: default_colormaps                
+            };
+
+  console.log('init_colormap');
+  if (!('id' in topnode)){
+    console.error('No id for gradient element');
   }
+  
+  if (!topnode.hasAttribute('controls')) {
+    console.error('No controls for gradient element #',topnode.id);
+  }
+  controlnode=document.getElementById(topnode.getAttribute('controls'));
+
+
+  for (var keyword in defaults) {
+      if (defaults.hasOwnProperty(keyword)) {
+          if (!topnode.hasAttribute(keyword)){
+              console.log(keyword, defaults[keyword]);
+              topnode.setAttribute(keyword, defaults[keyword]);
+          }
+      }
+  }
+  
+  
+  var colormaps=defaults.colormaps;
   colormapnames=[];
   for (var colormapname in colormaps) {
       if (colormaps.hasOwnProperty(colormapname)) {
           colormapnames.push(colormapname);
       }
-  }
-  console.log('')
+  }  
+  if (!('colormaps' in topnode)) {    
+      topnode.colormaps=colormaps;
+  }  
+
   topnode.colormapnames=colormapnames;
   if (!topnode.hasAttribute('colormapname')) {
       topnode.setAttribute('colormapname',colormapnames[0]);
   }
-
-
   
-
-  var colormaps=topnode.colormaps;
   var gradsteps=topnode.getAttribute('gradient_steps');
   var colormapname=topnode.getAttribute('colormapname');
 
@@ -197,7 +187,7 @@ function init_colormap (topnode) {
 }
 
 
-  var init_gradients=function init__gradients () {
+var init_gradients=function init__gradients () {
       
       var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
       ColorMapControlsPrototype.createdCallback = function() {     
