@@ -49,7 +49,6 @@ var click_transform=function click_transform (evt) {
 
 function init_gradient_transforms(widget_id, transform) {
 
-
  	$('.transformname_'+widget_id).on('click',click_transform);
  	$('.transformname_'+widget_id).on('mouseenter ',enter_selectie);
   	$('.transformname_'+widget_id).on('mouseout ',leave_selectie);
@@ -61,10 +60,16 @@ function init_gradient_transforms(widget_id, transform) {
 function click_data_transform () {
 
 	var id=$(this).attr('id');
+	var topnode=document.getElementById(widget_id);
+	var gradient=topnode.getAttribute('gradient');
+	var gradient_node=document.getElementById(gradient);
+	
 
-	if (id=='inv_grad') {
-		inv_grad=1-inv_grad; 
-		var state=inv_grad;
+	if (id=='inv_grad') {		
+		var gradient_invert=topnode.getAttribute('gradient_invert');
+		gradient_invert=1-gradient_invert;
+		gradient_node.setAttribute('gradient_invert',gradient_invert);	
+		var state=gradient_invert;
 	}
 
 	if (state) {
@@ -73,11 +78,7 @@ function click_data_transform () {
 		$(this).removeClass('active_selectie');
 	}
 
-	widget_id=$(this).attr('data-widget');
-	topnode=document.getElementById(widget_id);
-	gradient=topnode.getAttribute('gradient');
-	gradient_node=document.getElementById(gradient);
-
+	widget_id=$(this).attr('data-widget');	
 	draw_colormap (gradient_node);
 	return false;
 }

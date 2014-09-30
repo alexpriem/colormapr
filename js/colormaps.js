@@ -52,49 +52,16 @@ var colormap_contour10=function colormap_contour10 (N) {
 }
 
 
-function build_colormap (N, colorvals){
-
-	var step=parseInt(N/5);	
-	var steps=[step,step,step,step,step];
-	for (var i=0; i<N-step*5;i++) {
-		steps[i]=steps[i]+1;
-	}
-	var cmap=[];
-	var r,g,b, rangesteps;
-	
-	console.log(steps);
-	for (var range=0; range<5; range++) {
-		rangesteps=steps[range];
-		deltar=(colorvals[range+1][0]-colorvals[range][0])/rangesteps;
-		deltag=(colorvals[range+1][1]-colorvals[range][1])/rangesteps;
-		deltab=(colorvals[range+1][2]-colorvals[range][2])/rangesteps;
-//		console.log("DELTA:",deltar, deltag, deltab);		
-		r=colorvals[range][0];
-		g=colorvals[range][1];
-		b=colorvals[range][2];
-		for (var i=0; i<rangesteps; i++) {								
-//			console.log(r,g,b);
-			cmap.push([parseInt(r),parseInt(g),parseInt(b)]);
-			r+=deltar;
-			g+=deltag;
-			b+=deltab;
-		}
-	}
-	console.log("terrain");
-	return cmap;
-}
 
 var colormap_terrain=function colormap_terrain (N) {
 	
-	var colorvals=[
-		[51,51,153],
-		[0,152,254],
-		[0,202,105],
-		[255,255,153],
-		[128,93,84],
-		[255,255,255]];
-	var cmap=build_colormap(N, colorvals);	
-	console.log(cmap.length);
+	scale = chroma.scale(['#333399','#0098fe','#00ca69','#ffff99','#805d54','#ffffff']);
+	cmap=[];
+	frac=1.0/N;
+	for (i=0; i<N; i++){
+		rgb=scale(i*frac).rgb();
+		cmap.push([parseInt(rgb[0]),parseInt(rgb[1]),parseInt(rgb[2])]);
+	}
 	return cmap;
 }
 

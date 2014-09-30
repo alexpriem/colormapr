@@ -138,7 +138,8 @@ function init_colormap (topnode) {
               gradient_max: 100,
               gradient_steps: 20,
               transform: 'linear',
-              colormaps: default_colormaps                
+              colormaps: default_colormaps ,
+              gradient_invert:'false'        
             };
 
   console.log('init_colormap');
@@ -182,9 +183,10 @@ function init_colormap (topnode) {
   
   var gradsteps=topnode.getAttribute('gradient_steps');
   var colormapname=topnode.getAttribute('colormapname');
-
+  
   var colormap=colormaps[colormapname](gradsteps);
   topnode.colormap=colormap;
+
   console.log('calc_colormap:',colormap);
 
   init_controls(controlnode, topnode);
