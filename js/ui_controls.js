@@ -34,7 +34,7 @@ var click_transform=function click_transform (evt) {
 	widget_id=$(this).attr('data-widget');
 	
 	topnode=document.getElementById(widget_id);
-	gradient=topnode.getAttribute('gradient');
+	gradient=topnode.getAttribute('data-gradient');
 	gradient_node=document.getElementById(gradient);	
 	gradient_node.setAttribute('transform',transform);	
 	console.log('click_transform:', widget_id, gradient_node.id);
@@ -61,7 +61,7 @@ function click_data_transform () {
 
 	var id=$(this).attr('id');
 	var topnode=document.getElementById(widget_id);
-	var gradient=topnode.getAttribute('gradient');
+	var gradient=topnode.getAttribute('data-gradient');
 	var gradient_node=document.getElementById(gradient);
 	
 
@@ -96,7 +96,7 @@ var click_colormap=function click_colormap (evt) {
 	$(this).addClass('active_selectie');
 	
 	topnode=document.getElementById(widget_id);
-	gradient=topnode.getAttribute('gradient');
+	gradient=topnode.getAttribute('data-gradient');
 	gradient_node=document.getElementById(gradient);
 	gradient_node.setAttribute('colormapname',colormapname);
 	var gradsteps=gradient_node.getAttribute('gradient_steps')
@@ -139,7 +139,7 @@ function update_gradient (e) {
 
 
 		topnode=document.getElementById(widget_id);
-		gradient=topnode.getAttribute('gradient');
+		gradient=topnode.getAttribute('data-gradient');
 		gradient_node=document.getElementById(gradient);	
 		var colormapname=gradient_node.getAttribute('colormapname');		
 		console.log('map/#',topnode, gradient, gradient_node);
@@ -217,7 +217,7 @@ function init_controls (node, gradientnode) {
        };
     node.innerHTML =template(data);
 
-    console.log('gradient:', node.getAttribute('gradient'));
+    console.log('gradient:', node.getAttribute('data-gradient'));
     init_gradient_transforms(node.id, gradientnode.getAttribute('transform'));                            
     init_colormaps(node.id, gradientnode.getAttribute('colormapname'));
     init_colormap_inputs(node.id);

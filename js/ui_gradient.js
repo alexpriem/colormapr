@@ -112,7 +112,7 @@ chart.append("rect")
 
 
 
-function init_colormap (topnode) {
+var init_colormap=function init_colormap (i, topnode) {
 
   console.log('init_colormap'); 
   var default_colormaps={              
@@ -147,10 +147,10 @@ function init_colormap (topnode) {
     console.error('No id for gradient element');
   }
   
-  if (!topnode.hasAttribute('controls')) {
+  if (!topnode.hasAttribute('data-controls')) {
     console.error('No controls for gradient element #',topnode.id);
   }
-  controlnode=document.getElementById(topnode.getAttribute('controls'));
+  controlnode=document.getElementById(topnode.getAttribute('data-controls'));
 
 
   for (var keyword in defaults) {
@@ -195,17 +195,11 @@ function init_colormap (topnode) {
 
 
 var init_gradients=function init__gradients () {
+    
+  
+      $('.colormap-gradient').each(init_colormap); // function(i, obj){init_colormap(i,obj);});
+    //  $('.colormap_controls').each(init_controls(i, obj));
       
-      var ColorMapControlsPrototype = Object.create(HTMLElement.prototype);
-      ColorMapControlsPrototype.createdCallback = function() {     
-      };
-
-      var ColorMapGradientPrototype = Object.create(HTMLElement.prototype);
-      ColorMapGradientPrototype.createdCallback = function() {            
-          init_colormap (this);
-      }
-      var ColorMapGradient = document.registerElement('colormap-gradient', {prototype: ColorMapGradientPrototype}); 
-      var ColorMapControls = document.registerElement('colormap-controls', {prototype: ColorMapControlsPrototype}); 
 
       console.log('init done');
   };
