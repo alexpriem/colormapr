@@ -9,7 +9,6 @@
   <link href="css/style.css" rel="stylesheet" type="text/css"> 
     <script src="lib/js/d3.min.js"></script>
     <script src="lib/js/handlebars-v2.0.0.js"></script>    
-    <script src="lib/js/document-register-element.js"></script>        
     <script src="lib/js/jquery-2.1.1.min.js"> </script>   
     <script src="lib/js/chroma.min.js"> </script>   
 
@@ -74,11 +73,12 @@ bla
 
 <!-- Use element -->
 <table><tr>
-    <td valign="top" > <colormap-controls id="cc_a" gradient="cg_a"> </colormap-controls></td>
-    <td valign="top" > <colormap-controls id="cc_b" gradient="cg_b"> </colormap-controls></td>
-    <td valign="top"> <colormap-controls-flat id="cc_c"> </colormap-controls></td>
-    <td valign="top"> <colormap-gradient id="cg_a" controls="cc_a"> </colormap-gradient></td>
-    <td valign="top"> <colormap-gradient id="cg_b" controls="cc_b"> </colormap-gradient></td>
+    <td valign="top" > <div  class="colormap-controls" id="cc_a" data-gradient="cg_a"> </div></td>
+    <td valign="top" > <div class="colormap-controls"  id="cc_b" data-gradient="cg_b"> </div></td>
+    <td valign="top"> <div class="colormap-controls-flat" id="cc_c" data-gradient="cg_c" > </div></td>
+    <td valign="top"> <div class="colormap-gradient"  id="cg_a" data-controls="cc_a"> </div></td>
+    <td valign="top"> <div class="colormap-gradient" id="cg_b" data-controls="cc_b"> </div></td>
+    <td valign="top"> <div class="colormap-gradient" id="cg_c" data-controls="cc_c"> </div></td>
     </tr>
 </table>
 
