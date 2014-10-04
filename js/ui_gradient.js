@@ -197,9 +197,7 @@ var init_colormap=function init_colormap (i, topnode) {
 var init_gradients=function init__gradients () {
     
   
-      $('.colormap-gradient').each(init_colormap); // function(i, obj){init_colormap(i,obj);});
-    //  $('.colormap_controls').each(init_controls(i, obj));
-      
+      $('.colormap-gradient').each(init_colormap); 
 
       console.log('init done');
   };
