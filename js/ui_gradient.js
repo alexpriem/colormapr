@@ -30,8 +30,17 @@ svg.attr("id",'g_'+topnode.id);
 chart.attr("id",'g_'+topnode.id);
 
 
-var gradmin=topnode.getAttribute('gradient_min');
-var gradmax=topnode.getAttribute('gradient_max');
+if (topnode.hasAttribute('gradient_min_data')){
+  var gradmin=topnode.getAttribute('gradient_min_data');  
+}
+else {
+  var gradmin=topnode.getAttribute('gradient_min');
+}
+if (topnode.hasAttribute('gradient_max_data')){  
+  var gradmax=topnode.getAttribute('gradient_max_data');
+} else {
+  var gradmax=topnode.getAttribute('gradient_max');
+}
 var gradsteps=topnode.getAttribute('gradient_steps');
 var transform=topnode.getAttribute('transform');
 var colormap=topnode.colormap;
