@@ -7,6 +7,10 @@ function draw_colormap (topnode) {
 if (!('id' in topnode)) {
   console.error('draw_colormap:gradient element needs id');
 }
+ if (typeof(topnode.preAttributeChangedCallback)=='function') {
+    topnode.preAttributeChangedCallback();
+}
+
 
 child=topnode.childNodes[0];
 topnode.removeChild(child);
@@ -108,11 +112,16 @@ chart.append("rect")
  // console.log('chartexit:',chart[0][0].innerHTML);
  // console.log(topnode.id);
  // topnode.innerHTML =chart[0][0].innerHTML;
+    if (typeof(topnode.postAttributeChangedCallback)=='function') {
+      topnode.postAttributeChangedCallback();
+  }
+
 }
 
 
 
 var init_colormap=function init_colormap (i, topnode) {
+
 
   console.log('init_colormap'); 
   var default_colormaps={              
@@ -164,7 +173,14 @@ var init_colormap=function init_colormap (i, topnode) {
       }
   }
   
-  
+
+  if (!('postAttributeChangedCallback' in topnode)) {
+    topnode.postAttributeChangedCallback=null;
+  }
+  if (!('preAttributeChangedCallback' in topnode)) {
+    topnode.preattributeChangedCallback=null;
+  }
+
   var colormaps=defaults.colormaps;
   colormapnames=[];
   for (var colormapname in colormaps) {
@@ -187,7 +203,7 @@ var init_colormap=function init_colormap (i, topnode) {
   var colormap=colormaps[colormapname](gradsteps);
   topnode.colormap=colormap;
 
-  console.log('calc_colormap:',colormap);
+  //console.log('calc_colormap:',colormap);
 
   init_controls(controlnode, topnode);
   draw_colormap(topnode);
@@ -198,6 +214,5 @@ var init_gradients=function init__gradients () {
     
   
       $('.colormap-gradient').each(init_colormap); 
-
       console.log('init done');
   };

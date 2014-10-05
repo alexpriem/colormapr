@@ -140,7 +140,7 @@ for (i=0; i<N; i++){
 //	console.log('%d:%d,%d,%d',i,rgb[0],rgb[1],rgb[2]);
 }
 
-console.log('blue, cmaps1:', cmap);
+
 scale=chroma.scale(['white', '#d2ecf7','#9cd7ef','#00a1cd','#008dd1','#004b9a', '#002c61']).correctLightness(true);
 cmap=[];
 frac=1.0/N;
