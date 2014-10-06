@@ -12,7 +12,8 @@ var colormap_gray=function colormap_gray (N) {
   return cmap;
 }
 
-var colormap_blue2=function colormap_blue2 (N) {
+
+var colormap_bluewhite=function colormap_bluewhite (N) {
 	var step=256/N;
 	var cmap=[];
 	var col=256;
@@ -23,6 +24,7 @@ var colormap_blue2=function colormap_blue2 (N) {
 	}
   return cmap;
 }
+
 
 
 var colormap_contour5=function colormap_contour5 (N) {
@@ -127,8 +129,8 @@ return cmap;
 }
 
 
-var colormap_blue=function colormap_blue(N){
-
+var colormap_blueblack=function colormap_blueblack (N) {
+	
 scale=chroma.scale(['white', '#d2ecf7','#9cd7ef','#00a1cd','#008dd1','#004b9a', '#002c61']);
 
 // dump for debug-purposes
@@ -139,9 +141,15 @@ for (i=0; i<N; i++){
 	cmap.push([parseInt(rgb[0]),parseInt(rgb[1]),parseInt(rgb[2])]);
 //	console.log('%d:%d,%d,%d',i,rgb[0],rgb[1],rgb[2]);
 }
+return cmap;
+}
 
 
-scale=chroma.scale(['white', '#d2ecf7','#9cd7ef','#00a1cd','#008dd1','#004b9a', '#002c61']).correctLightness(true);
+var colormap_blue=function colormap_blue(N){
+
+scale=chroma.scale(['white', '#d2ecf7','#9cd7ef','#00a1cd','#008dd1','#004b9a', '#002c61']);
+
+// dump for debug-purposes
 cmap=[];
 frac=1.0/N;
 for (i=0; i<N; i++){

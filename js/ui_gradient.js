@@ -135,7 +135,8 @@ var init_colormap=function init_colormap (i, topnode) {
   console.log('init_colormap'); 
   var default_colormaps={              
             'blue':colormap_blue,
-            'blue2':colormap_blue2,
+            'blue_white':colormap_bluewhite,
+            'blue_black':colormap_blueblack,
             'green':colormap_green,
             'red':colormap_red, 
             'gray':colormap_gray,
