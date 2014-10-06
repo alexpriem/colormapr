@@ -160,6 +160,7 @@ var init_colormap=function init_colormap (i, topnode) {
               gradient_invert:'false'        
             };
 
+  
   console.log('init_colormap');
   if (!('id' in topnode)){
     console.error('No id for gradient element');
@@ -213,7 +214,7 @@ var init_colormap=function init_colormap (i, topnode) {
   topnode.colormap=colormap;
 
   //console.log('calc_colormap:',colormap);
-
+  topnode.need_data_recalc=true;
   init_controls(controlnode, topnode);
   draw_colormap(topnode);
 }

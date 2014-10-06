@@ -37,7 +37,8 @@ var click_transform=function click_transform (evt) {
 	topnode=document.getElementById(widget_id);
 	gradient=topnode.getAttribute('data-gradient');
 	gradient_node=document.getElementById(gradient);	
-	gradient_node.setAttribute('transform',transform);	
+	gradient_node.setAttribute('transform',transform);		
+	gradient_node.need_data_recalc=true;
 	console.log('click_transform:', widget_id, gradient_node.id);
 	draw_colormap (gradient_node);		
 	$('.transformname_'+widget_id).removeClass('active_selectie');
@@ -78,7 +79,8 @@ function click_data_transform () {
 	} else {
 		$(this).removeClass('active_selectie');
 	}
-
+	
+	gradient_node.need_data_recalc=true;
 	widget_id=$(this).attr('data-widget');	
 	draw_colormap (gradient_node);
 	return false;
@@ -102,7 +104,7 @@ var click_colormap=function click_colormap (evt) {
 	gradient_node.setAttribute('colormapname',colormapname);
 	var gradsteps=gradient_node.getAttribute('gradient_steps')
 	gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
-
+	gradient_node.need_data_recalc=false;
 	
 	draw_colormap (gradient_node);
 
@@ -154,6 +156,7 @@ function update_gradient (e) {
 		gradient_node.setAttribute('gradient_min', gradmin);
 		gradient_node.setAttribute('gradient_max',gradmax);
 		gradient_node.setAttribute('gradient_steps',gradsteps);
+		gradient_node.need_data_recalc=true;
 		draw_colormap (gradient_node);
 
 	}
