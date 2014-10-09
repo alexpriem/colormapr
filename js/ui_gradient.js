@@ -4,6 +4,7 @@
 
 function draw_colormap (topnode) {
 
+console.log('draw_colormap');
 if (!('id' in topnode)) {
   console.error('draw_colormap:gradient element needs id');
 }
@@ -24,7 +25,6 @@ svg.attr('width',150);
 svg.attr('height',300);
 var chart=svg.append('svg:g');
 
-console.log('id:',chart );
 
 svg.attr("id",'g_'+topnode.id);
 chart.attr("id",'g_'+topnode.id);
@@ -44,13 +44,13 @@ if (topnode.hasAttribute('gradient_max_data')){
 var gradsteps=topnode.getAttribute('gradient_steps');
 var transform=topnode.getAttribute('transform');
 var colormap=topnode.colormap;
-
+console.log('draw_colormap, gradmin/gradmax:',gradmin, gradmax);
 
 //chart = d3.select("#svg_"+topnode);
 // $('.colormap').remove(); oude element verwijderen.
 var barlength=200;
 var barstep=(barlength/gradsteps);
-console.log(barlength, barstep);
+console.log('draw_colormap, barlength/barstep:',barlength, barstep);
 chart.append("rect")  
 	.attr("class","colormap")
 	.attr("x",75)
@@ -61,7 +61,7 @@ chart.append("rect")
 	.style("stroke","black")
 	.style("stroke-width","1px");
 
-//console.log('chartexit:', chart[0][0].innerHTML);
+
 
  for (i=1; i<=gradsteps; i++) {
  	color=colormap[i-1];
@@ -88,13 +88,6 @@ chart.append("rect")
     if (gradmin==0)  {      //bandaid
         gradmin=1;
       }
-  }
-  if (transform=='log2') {
-  	var colorScale=d3.scale.log().base(2);
-    if (gradmin==0)  {
-        gradmin=1;
-      }
-
   }
   if (transform=='sqrt') {
   	var colorScale=d3.scale.pow().exponent(0.5);

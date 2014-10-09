@@ -83,6 +83,7 @@ function click_data_transform () {
 	gradient_node.need_data_recalc=true;
 	widget_id=$(this).attr('data-widget');	
 	draw_colormap (gradient_node);
+	console.log('click_data_transform done');
 	return false;
 }
 
@@ -158,7 +159,7 @@ function update_gradient (e) {
 		gradient_node.setAttribute('gradient_steps',gradsteps);
 		gradient_node.need_data_recalc=true;
 		draw_colormap (gradient_node);
-
+		console.log('update_gradient done');
 	}
 }
 
@@ -176,7 +177,7 @@ function init_colormap_inputs(widget_id) {
 
 function init_controls (node, gradientnode) {
 
-    console.log('created:', node.id);
+    console.log('init_controls, create:', node.id);
 
     colormaps=[];
     var colormapnames=gradientnode.colormapnames;
@@ -195,6 +196,7 @@ function init_controls (node, gradientnode) {
 	}
 
 	if (show_size) {
+		console.log("init_controls, show_size");
 		sizetable=[2,5,10,20,50,100,200,500,1000,2000,5000];
 		j=0;
 		size=sizetable[0];		
