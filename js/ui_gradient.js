@@ -151,7 +151,7 @@ var init_colormap=function init_colormap (i, topnode) {
               gradient_steps: 20,
               transform: 'linear',
               colormaps: default_colormaps ,
-              gradient_invert:'false'        
+              gradient_invert:'false'              
             };
 
   
@@ -159,6 +159,8 @@ var init_colormap=function init_colormap (i, topnode) {
   if (!('id' in topnode)){
     console.error('No id for gradient element');
   }
+
+
   
   if (!topnode.hasAttribute('data-controls')) {
     console.error('No controls for gradient element #',topnode.id);
@@ -175,8 +177,10 @@ var init_colormap=function init_colormap (i, topnode) {
               }
           }
       }
-  }
+  }  
   
+
+  topnode.size=1;  
 
   if (!('postAttributeChangedCallback' in topnode)) {
     topnode.postAttributeChangedCallback=null;
