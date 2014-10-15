@@ -88,6 +88,7 @@ function init_gradient_transforms(widget_id, transform) {
 
 var click_colormap=function click_colormap (evt) {
 
+	var widget_id=$(this).attr('data-widget');
 	if (evt.type=='click') {
 		var	colormapname=$(this).attr('data-colormap');			
 		$('.colormapname_'+widget_id).removeClass('active_selectie');
@@ -97,7 +98,7 @@ var click_colormap=function click_colormap (evt) {
 		var colormapname=$(this).val();
 	}	
 
-	widget_id=$(this).attr('data-widget');
+	
 	console.log('click_colormap',colormapname);	
 	
 	topnode=document.getElementById(widget_id);
