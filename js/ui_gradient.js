@@ -41,45 +41,18 @@ if (topnode.hasAttribute('gradient_max_data')){
 } else {
   var gradmax=topnode.getAttribute('gradient_max');
 }
+var gradcenter=topnode.getAttribute('gradient_center');
 var gradsteps=topnode.getAttribute('gradient_steps');
 var transform=topnode.getAttribute('transform');
+var transform=topnode.getAttribute('transform');
+var bimodal=topnode.getAttribute('gradient_bimodal')=='true';
 var colormap=topnode.colormap;
 console.log('draw_colormap, gradmin/gradmax:',gradmin, gradmax);
 
 //chart = d3.select("#svg_"+topnode);
 // $('.colormap').remove(); oude element verwijderen.
-var barlength=200;
-var barstep=(barlength/gradsteps);
-console.log('draw_colormap, barlength/barstep:',barlength, barstep);
-chart.append("rect")  
-	.attr("class","colormap")
-	.attr("x",75)
-	.attr("y",25+10)
-	.attr("width",20)
-	.attr("height",barlength)
-	.style("fill","none")
-	.style("stroke","black")
-	.style("stroke-width","1px");
+var barlength=200;    // FIXME: getAttribute !
 
-
-
- for (i=1; i<=gradsteps; i++) {
- 	color=colormap[i-1];
-	chart.append("svg:rect")
-		.attr("class","colormap")
-		.attr("x",76)
-		.attr("y",25+10+barlength-barstep*i-1)
-		.attr("width",20)
-		.attr("height",barstep)
-		.style("fill","rgb("+color[0]+","+color[1]+","+color[2]+")")
-		.style("stroke","rgb("+color[0]+","+color[1]+","+color[2]+")")
-		.style("stroke-width","1px");
-
- }
-
-
-
-  
   if (transform=='linear') {
 	var colorScale=d3.scale.linear();
   }  
@@ -109,7 +82,50 @@ chart.append("rect")
         .attr("transform","translate("+scalepos+",35)")
         .call(colorAxis);        
  
-  
+  //console.log('100::::',colorScale(gradmax))
+  //console.log('50::::',)
+  //console.log('0::::',colorScale(gradmin))
+
+  min_px=colorScale(gradmin);
+  max_px=colorScale(gradmax);
+  if (bimodal) {
+    var center_px=colorScale(gradcenter);
+    var barlength=center_px-max_px;
+  } else {
+    var barlength=min_px-max_px;
+  }
+
+var barstep=(barlength)/gradsteps;
+
+console.log('::::::',min_px,max_px, barlength, barstep);
+
+console.log('draw_colormap, barlength/barstep:',barlength, barstep);
+chart.append("rect")  
+  .attr("class","colormap")
+  .attr("x",75)
+  .attr("y",25+10)
+  .attr("width",20)
+  .attr("height",barlength)
+  .style("fill","none")
+  .style("stroke","black")
+  .style("stroke-width","1px");
+
+ for (i=1; i<=gradsteps; i++) {
+  color=colormap[i-1];
+  chart.append("svg:rect")
+    .attr("class","colormap")
+    .attr("x",76)
+    .attr("y",25+10+barlength-barstep*i-1)
+    .attr("width",18)
+    .attr("height",barstep)
+    .style("fill","rgb("+color[0]+","+color[1]+","+color[2]+")")
+    .style("stroke","rgb("+color[0]+","+color[1]+","+color[2]+")")
+    .style("stroke-width","1px");
+ }
+
+
+
+
  // console.log('chartexit:',chart);
  // console.log('chartexit:',chart[0][0].innerHTML);
  // console.log(topnode.id);
@@ -214,7 +230,7 @@ var init_colormap=function init_colormap (i, topnode) {
     colormap=colormap.reverse();  
   } 
   topnode.colormap=colormap;
-  
+
   //console.log('calc_colormap:',colormap);
   topnode.need_data_recalc=true;
   init_controls(controlnode, topnode);
