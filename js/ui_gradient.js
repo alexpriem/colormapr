@@ -210,8 +210,11 @@ var init_colormap=function init_colormap (i, topnode) {
   var colormapname=topnode.getAttribute('colormapname');
   
   var colormap=colormaps[colormapname](gradsteps);
+  if (topnode.getAttribute('gradient_invert')=='true') {
+    colormap=colormap.reverse();  
+  } 
   topnode.colormap=colormap;
-
+  
   //console.log('calc_colormap:',colormap);
   topnode.need_data_recalc=true;
   init_controls(controlnode, topnode);

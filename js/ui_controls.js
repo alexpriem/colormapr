@@ -106,6 +106,10 @@ var click_colormap=function click_colormap (evt) {
 	gradient_node.setAttribute('colormapname',colormapname);
 	var gradsteps=gradient_node.getAttribute('gradient_steps')
 	gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
+	if (gradient_node.getAttribute('gradient_invert')=='true') {
+			gradient_node.colormap=gradient_node.colormap.reverse();
+	}
+
 	gradient_node.need_data_recalc=false;
 	
 	draw_colormap (gradient_node);
@@ -155,6 +159,9 @@ function update_gradient (e) {
 		console.log('grad:',gradient_node.colormaps[colormapname]);
 
 		gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
+		if (gradient_node.getAttribute('gradient_invert')=='true') {
+			gradient_node.colormap=gradient_node.colormap.reverse();
+		}
 		gradient_node.setAttribute('gradient_min', gradmin);
 		gradient_node.setAttribute('gradient_max',gradmax);
 		gradient_node.setAttribute('gradient_steps',gradsteps);
@@ -188,6 +195,7 @@ var toggle_invert=function toggle_invert (evt) {
 
 	console.log('toggle_invert', gradient_node.getAttribute('gradient_invert'));
 
+	gradient_node.colormap=gradient_node.colormap.reverse();
 	update_invert_state(this,gradient_node);
 	gradient_node.need_data_recalc=true;	
 	draw_colormap (gradient_node);
