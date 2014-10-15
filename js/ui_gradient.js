@@ -151,7 +151,8 @@ var init_colormap=function init_colormap (i, topnode) {
               gradient_steps: 20,
               transform: 'linear',
               colormaps: default_colormaps ,
-              gradient_invert:'false'              
+              gradient_invert: 'false',
+              gradient_bimodal: 'false'             
             };
 
   

@@ -83,37 +83,8 @@ function init_gradient_transforms(widget_id, transform) {
 
 
 
-function click_data_transform () {
 
-	var id=$(this).attr('id');
-	var topnode=document.getElementById(widget_id);
-	var gradient=topnode.getAttribute('data-gradient');
-	var gradient_node=document.getElementById(gradient);
 	
-
-	if (id=='inv_grad') {		
-		var gradient_invert=topnode.getAttribute('gradient_invert');
-		gradient_invert=1-gradient_invert;
-		gradient_node.setAttribute('gradient_invert',gradient_invert);	
-		var state=gradient_invert;
-	}
-
-	if (state) {
-		$(this).addClass('active_selectie');
-	} else {
-		$(this).removeClass('active_selectie');
-	}
-	
-	gradient_node.need_data_recalc=true;
-	widget_id=$(this).attr('data-widget');	
-	draw_colormap (gradient_node);
-	console.log('click_data_transform done');
-	return false;
-}
-
-
-
-
 
 var click_colormap=function click_colormap (evt) {
 
@@ -193,13 +164,83 @@ function update_gradient (e) {
 	}
 }
 
+function update_invert_state (node, gradient_node) {
 
-function init_colormap_inputs(widget_id) {
+	if (gradient_node.getAttribute('gradient_invert')=='true') {		
+		$(node).addClass('active_selectie');
+	} else {		
+		$(node).removeClass('active_selectie');				
+	}
+}
+
+
+var toggle_invert=function toggle_invert (evt) {
+
+	widget_id=$(this).attr('data-widget');
+	topnode=document.getElementById(widget_id);
+	gradient=topnode.getAttribute('data-gradient');
+	gradient_node=document.getElementById(gradient);
+	if (gradient_node.getAttribute('gradient_invert')=='true') {
+		gradient_node.setAttribute('gradient_invert','false');	
+	} else {
+		gradient_node.setAttribute('gradient_invert','true');		
+	}
+
+	console.log('toggle_invert', gradient_node.getAttribute('gradient_invert'));
+
+	update_invert_state(this,gradient_node);
+	gradient_node.need_data_recalc=true;	
+	draw_colormap (gradient_node);
+}
+
+
+function update_bimodal_state (node, gradient_node,widget_id) {
+
+	if (gradient_node.getAttribute('gradient_bimodal')=='true') {		
+		$('#header_center_'+widget_id).show();
+		$(node).addClass('active_selectie');		
+	} else {		
+		$('#header_center_'+widget_id).hide();
+		$(node).removeClass('active_selectie');			
+	}
+}
+
+var toggle_bimodal=function toggle_bimodal (evt) {
+
+	widget_id=$(this).attr('data-widget');
+	topnode=document.getElementById(widget_id);
+	gradient=topnode.getAttribute('data-gradient');
+	gradient_node=document.getElementById(gradient);
+	console.log('toggle_bimodal', gradient_node.bimodal);
+	if (gradient_node.getAttribute('gradient_bimodal')=='true') {
+		gradient_node.setAttribute('gradient_bimodal','false');	
+	} else {
+		gradient_node.setAttribute('gradient_bimodal','true');
+	}
+
+	update_bimodal_state(this, gradient_node,widget_id);
+	gradient_node.need_data_recalc=true;
+	draw_colormap (gradient_node);
+}
+
+function init_colormap_inputs(widget_id, gradient_node) {
 
 	console.log('init_inputs');
+	$('#invert_'+widget_id).on('click',toggle_invert);
+	$('#bimodal_'+widget_id).on('click',toggle_bimodal);
 	$("#min_"+widget_id).on('keydown',update_gradient);
+	$("#center_"+widget_id).on('keydown',update_gradient);
 	$("#max_"+widget_id).on('keydown',update_gradient);
 	$("#steps_"+widget_id).on('keydown',update_gradient);	
+
+	topnode=document.getElementById(widget_id);
+	gradient=topnode.getAttribute('data-gradient');
+	gradient_node=document.getElementById(gradient);
+
+	var node=$('#bimodal_'+widget_id);
+	update_bimodal_state(node,gradient_node,widget_id);
+	var node=$('#invert_'+widget_id);
+	update_invert_state(node,gradient_node);
 }
 
 
@@ -258,9 +299,12 @@ function init_controls (node, gradientnode) {
     var data = {
          widget_id : node.id,
          min: gradientnode.getAttribute('gradient_min'),
+         center: gradientnode.getAttribute('gradient_center'),
          max: gradientnode.getAttribute('gradient_max'),
          steps: gradientnode.getAttribute('gradient_steps'),
          transform: gradientnode.getAttribute('transform'),
+         invert: gradientnode.getAttribute('gradient_invert'),
+         bimodal: gradientnode.getAttribute('gradient_bimodal'),
          colormaps: colormaps, 
          show_size: show_size,
          sizes: sizes         
@@ -276,7 +320,7 @@ function init_controls (node, gradientnode) {
     }
     init_gradient_transforms(node.id, gradientnode.getAttribute('transform'));                            
     init_colormaps(node.id, gradientnode.getAttribute('colormapname'));
-    init_colormap_inputs(node.id);
+    init_colormap_inputs(node.id, gradientnode);
     init_sizes(node.id);
 }
 
