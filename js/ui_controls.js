@@ -9,20 +9,30 @@ var leave_selectie=function enter_selectie (evt) {
 
 
 var click_size=function click_size (evt) {
-	size=parseInt($(this).attr('data-size'));
-	console.log('click_size:',size);
 
-	widget_id=$(this).attr('data-widget');
+//	console.log('click_size:',evt.type);
+	if (evt.type=='click') {
+		size=parseInt($(this).attr('data-size'));
+		$('.sizename ').removeClass('active_selectie');
+		$(this).addClass('active_selectie');	
+	} 
+	if (evt.type=='change'){
+		size=parseInt($(this).val());
+	}	
+
+	widget_id=$(this).attr('data-widget');	
+//	console.log('click_size:',size, widget_id);
+
 	topnode=document.getElementById(widget_id);
 	gradient=topnode.getAttribute('data-gradient');
 	gradient_node=document.getElementById(gradient);
-	gradient_node.size=size;   
-	$('.sizename ').removeClass('active_selectie');
-	$(this).addClass('active_selectie');	
-
-	gradient_node.preAttributeChangedCallback();
-	gradient_node.postAttributeChangedCallback();
-	return false;
+	gradient_node.size=size;   	
+	if (gradient_node.preAttributeChangedCallback!=null){
+		gradient_node.preAttributeChangedCallback();
+	}
+	if (gradient_node.postAttributeChangedCallback!=null){
+		gradient_node.postAttributeChangedCallback();	
+	}
 }
 
 
@@ -39,7 +49,15 @@ function init_sizes(widget_id) {
 
 var click_transform=function click_transform (evt) {
 
-	transform=$(this).attr('data-transform');
+	if (evt.type=='click') {
+		var transform=$(this).attr('data-transform');
+		$('.transformname_'+widget_id).removeClass('active_selectie');
+		$(this).addClass('active_selectie');	
+	} 
+	if (evt.type=='change'){
+		var transform=$(this).val();
+	}	
+	
 	widget_id=$(this).attr('data-widget');
 	
 	topnode=document.getElementById(widget_id);
@@ -47,10 +65,8 @@ var click_transform=function click_transform (evt) {
 	gradient_node=document.getElementById(gradient);	
 	gradient_node.setAttribute('transform',transform);		
 	gradient_node.need_data_recalc=true;
-	console.log('click_transform:', widget_id, gradient_node.id);
+	console.log('click_transform:', transform, widget_id, gradient_node.id);
 	draw_colormap (gradient_node);		
-	$('.transformname_'+widget_id).removeClass('active_selectie');
-	$(this).addClass('active_selectie');
 
 	return false;
 }
@@ -101,11 +117,17 @@ function click_data_transform () {
 
 var click_colormap=function click_colormap (evt) {
 
-	colormapname=$(this).attr('data-colormap');			
+	if (evt.type=='click') {
+		var	colormapname=$(this).attr('data-colormap');			
+		$('.colormapname_'+widget_id).removeClass('active_selectie');
+		$(this).addClass('active_selectie');	
+	} 
+	if (evt.type=='change'){
+		var colormapname=$(this).val();
+	}	
+
 	widget_id=$(this).attr('data-widget');
-	console.log('click_colormap',colormapname);
-	$('.colormapname_'+widget_id).removeClass('active_selectie');
-	$(this).addClass('active_selectie');
+	console.log('click_colormap',colormapname);	
 	
 	topnode=document.getElementById(widget_id);
 	gradient=topnode.getAttribute('data-gradient');
@@ -181,6 +203,11 @@ function init_colormap_inputs(widget_id) {
 }
 
 
+var colormap_select=function colormap_select (evt) {
+
+ console.log('colormap_select',this.id);
+ console.log('colormap_select',$(this).val());
+}
 
 
 function init_controls (node, gradientnode) {
@@ -220,7 +247,13 @@ function init_controls (node, gradientnode) {
 		}
 	}
 
-    var source   = $("#entry-template").html();        
+	var controltype=node.getAttribute('controltype');
+	console.log('controltype:',controltype);
+	if (controltype=='flat') {
+    	var source   = $("#entry-template-flat").html();        
+    } else {
+    	var source   = $("#entry-template").html();        
+    }
     var template = Handlebars.compile(source); 
     var data = {
          widget_id : node.id,
@@ -235,11 +268,18 @@ function init_controls (node, gradientnode) {
     node.innerHTML =template(data);
 
     console.log('gradient:', node.getAttribute('data-gradient'));
+    if (controltype=='flat') {
+    	console.log('doit');
+    	$('#colormap_select_'+node.id).change(click_colormap);
+    	$('#transform_select_'+node.id).change(click_transform);
+    	$('#size_select_'+node.id).change(click_size);
+    }
     init_gradient_transforms(node.id, gradientnode.getAttribute('transform'));                            
     init_colormaps(node.id, gradientnode.getAttribute('colormapname'));
     init_colormap_inputs(node.id);
     init_sizes(node.id);
 }
+
 
 
 
