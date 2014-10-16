@@ -47,6 +47,7 @@ var transform=topnode.getAttribute('transform');
 var transform=topnode.getAttribute('transform');
 var bimodal=topnode.getAttribute('gradient_bimodal')=='true';
 var colormap=topnode.colormap;
+var colormap2=topnode.colormap2;
 console.log('draw_colormap, gradmin/gradmax:',gradmin, gradmax);
 
 //chart = d3.select("#svg_"+topnode);
@@ -105,13 +106,14 @@ chart.append("rect")
   .attr("x",75)
   .attr("y",25+10)
   .attr("width",20)
-  .attr("height",barlength)
+  .attr("height",min_px-max_px)
   .style("fill","none")
   .style("stroke","black")
   .style("stroke-width","1px");
 
  for (i=1; i<=gradsteps; i++) {
   color=colormap[i-1];
+  console.log('yy:',25+10+barlength-barstep*i-1);
   chart.append("svg:rect")
     .attr("class","colormap")
     .attr("x",76)
@@ -121,6 +123,27 @@ chart.append("rect")
     .style("fill","rgb("+color[0]+","+color[1]+","+color[2]+")")
     .style("stroke","rgb("+color[0]+","+color[1]+","+color[2]+")")
     .style("stroke-width","1px");
+ }
+
+
+ if (bimodal) {
+  var barlength=center_px;
+  var barstep=(barlength)/gradsteps;
+
+
+  for (i=1; i<=gradsteps; i++) {
+    color=colormap2[i-1];
+    console.log('yy:',25+10+center_px-barstep*i-1);
+    chart.append("svg:rect")
+        .attr("class","colormap")
+        .attr("x",76)
+        .attr("y",25+10+min_px-barstep*i-1)
+        .attr("width",18)
+        .attr("height",barstep)
+        .style("fill","rgb("+color[0]+","+color[1]+","+color[2]+")")
+        .style("stroke","rgb("+color[0]+","+color[1]+","+color[2]+")")
+        .style("stroke-width","1px");
+     }
  }
 
 
@@ -157,6 +180,12 @@ var init_colormap=function init_colormap (i, topnode) {
             'ygb':colormap_ygb,
               };
 
+var default_bimodal_colormaps={              
+            'blue-white-red':[colormap_blue, colormap_red],
+            'blue_white-blue':[colormap_blue, colormap_blue],                      
+              };
+
+
   var defaults={ width: 150,
               height: 300,
               xpixels: 500,
@@ -164,11 +193,13 @@ var init_colormap=function init_colormap (i, topnode) {
               show_size: 'true',
               gradient_min: 0,
               gradient_max: 100,
+              gradient_center: 50,
               gradient_steps: 20,
               transform: 'linear',
               colormaps: default_colormaps ,
+              bimodal_colormaps: default_bimodal_colormaps ,
               gradient_invert: 'false',
-              gradient_bimodal: 'false'             
+              gradient_bimodal: 'true'             
             };
 
   
@@ -206,7 +237,12 @@ var init_colormap=function init_colormap (i, topnode) {
     topnode.preattributeChangedCallback=null;
   }
 
-  var colormaps=defaults.colormaps;
+  var bimodal=topnode.getAttribute('gradient_bimodal')=='true';
+  if (bimodal) {
+    var colormaps=defaults.bimodal_colormaps;
+  } else {
+    var colormaps=defaults.colormaps;
+  }
   colormapnames=[];
   for (var colormapname in colormaps) {
       if (colormaps.hasOwnProperty(colormapname)) {
@@ -222,14 +258,9 @@ var init_colormap=function init_colormap (i, topnode) {
       topnode.setAttribute('colormapname',colormapnames[0]);
   }
   
-  var gradsteps=topnode.getAttribute('gradient_steps');
-  var colormapname=topnode.getAttribute('colormapname');
+
+  update_colormaps(topnode);
   
-  var colormap=colormaps[colormapname](gradsteps);
-  if (topnode.getAttribute('gradient_invert')=='true') {
-    colormap=colormap.reverse();  
-  } 
-  topnode.colormap=colormap;
 
   //console.log('calc_colormap:',colormap);
   topnode.need_data_recalc=true;

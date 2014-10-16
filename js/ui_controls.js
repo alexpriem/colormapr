@@ -83,6 +83,32 @@ function init_gradient_transforms(widget_id, transform) {
 
 
 
+function update_colormaps (gradient_node) {
+	var invert=gradient_node.getAttribute('gradient_invert')=='true';
+	var bimodal=gradient_node.getAttribute('gradient_bimodal')=='true';
+
+	var gradsteps=gradient_node.getAttribute('gradient_steps')
+	var colormapname=gradient_node.getAttribute('colormapname');	
+	var colormaps=gradient_node.colormaps;
+	if (bimodal) {
+		if (invert) {
+  			var colormap=colormaps[colormapname][1](gradsteps);
+  			var colormap2=colormaps[colormapname][0](gradsteps).reverse();
+		} else {
+  			var colormap=colormaps[colormapname][0](gradsteps);
+  			var colormap2=colormaps[colormapname][1](gradsteps).reverse();
+		}
+		gradient_node.colormap=colormap;
+		gradient_node.colormap2=colormap2;
+	} else { 
+  		var colormap=colormaps[colormapname](gradsteps);
+  		if (invert) {
+    		colormap=colormap.reverse();  
+  		} 
+  	}
+  	gradient_node.colormap=colormap;
+}
+
 
 	
 
@@ -105,12 +131,9 @@ var click_colormap=function click_colormap (evt) {
 	gradient=topnode.getAttribute('data-gradient');
 	gradient_node=document.getElementById(gradient);
 	gradient_node.setAttribute('colormapname',colormapname);
-	var gradsteps=gradient_node.getAttribute('gradient_steps')
-	gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
-	if (gradient_node.getAttribute('gradient_invert')=='true') {
-			gradient_node.colormap=gradient_node.colormap.reverse();
-	}
-
+	
+	update_colormaps();
+	//gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
 	gradient_node.need_data_recalc=false;
 	
 	draw_colormap (gradient_node);
@@ -159,10 +182,7 @@ function update_gradient (e) {
 		console.log ('map:',colormapname, gradsteps);
 		console.log('grad:',gradient_node.colormaps[colormapname]);
 
-		gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
-		if (gradient_node.getAttribute('gradient_invert')=='true') {
-			gradient_node.colormap=gradient_node.colormap.reverse();
-		}
+		update_colormaps(gradient_node);
 		gradient_node.setAttribute('gradient_min', gradmin);
 		gradient_node.setAttribute('gradient_max',gradmax);
 		gradient_node.setAttribute('gradient_steps',gradsteps);
@@ -196,7 +216,7 @@ var toggle_invert=function toggle_invert (evt) {
 
 	console.log('toggle_invert', gradient_node.getAttribute('gradient_invert'));
 
-	gradient_node.colormap=gradient_node.colormap.reverse();
+	update_colormaps();
 	update_invert_state(this,gradient_node);
 	gradient_node.need_data_recalc=true;	
 	draw_colormap (gradient_node);
@@ -263,13 +283,6 @@ var colormap_select=function colormap_select (evt) {
 function init_controls (node, gradientnode) {
 
     console.log('init_controls, create:', node.id);
-
-    colormaps=[];
-    var colormapnames=gradientnode.colormapnames;
-    for (i=0; i<colormapnames.length; i++){
-        colormaps.push({name:colormapnames[i], widget_id:node.id});
-    }
-
 	xpixels=gradientnode.getAttribute('xpixels');
 	ypixels=gradientnode.getAttribute('ypixels');
 	show_size=gradientnode.getAttribute('show_size');
@@ -297,6 +310,7 @@ function init_controls (node, gradientnode) {
 		}
 	}
 
+
 	var controltype=node.getAttribute('controltype');
 	console.log('controltype:',controltype);
 	if (controltype=='flat') {
@@ -305,6 +319,12 @@ function init_controls (node, gradientnode) {
     	var source   = $("#entry-template").html();        
     }
     var template = Handlebars.compile(source); 
+
+    colormaps=[];  
+    var colormapnames=gradientnode.colormapnames;
+    for (i=0; i<colormapnames.length; i++){
+        colormaps.push({name:colormapnames[i], widget_id:node.id});
+    }
     var data = {
          widget_id : node.id,
          min: gradientnode.getAttribute('gradient_min'),
