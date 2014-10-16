@@ -99,7 +99,7 @@ var barlength=200;    // FIXME: getAttribute !
 
 var barstep=(barlength)/gradsteps;
 
-console.log('::::::',min_px,max_px, barlength, barstep);
+console.log('::::::',min_px,center_px, max_px, barlength, barstep);
 
 console.log('draw_colormap, barlength/barstep:',barlength, barstep);
 chart.append("rect")  
@@ -112,9 +112,10 @@ chart.append("rect")
   .style("stroke","black")
   .style("stroke-width","1px");
 
+ console.log(colormap);
  for (i=1; i<=gradsteps; i++) {
   color=colormap[i-1];
-  console.log('yy:',25+10+barlength-barstep*i-1);
+  console.log('yy:',i,barlength-barstep*i-1, color);
   chart.append("svg:rect")
     .attr("class","colormap")
     .attr("x",76)
@@ -128,13 +129,14 @@ chart.append("rect")
 
 
  if (bimodal) {
-  var barlength=center_px;
+
+  var barlength=min_px-center_px;
   var barstep=(barlength)/gradsteps;
   if (barlength<0) barlength=-barlength;
 
   for (i=1; i<=gradsteps; i++) {
     color=colormap2[i-1];
-    console.log('yy:',25+10+center_px-barstep*i-1);
+    console.log('zz:',i,min_px-barstep*i-1, color);
     chart.append("svg:rect")
         .attr("class","colormap")
         .attr("x",76)
