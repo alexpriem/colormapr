@@ -95,6 +95,7 @@ var barlength=200;    // FIXME: getAttribute !
   } else {
     var barlength=min_px-max_px;
   }
+  if (barlength<0) barlength=-barlength;
 
 var barstep=(barlength)/gradsteps;
 
@@ -129,7 +130,7 @@ chart.append("rect")
  if (bimodal) {
   var barlength=center_px;
   var barstep=(barlength)/gradsteps;
-
+  if (barlength<0) barlength=-barlength;
 
   for (i=1; i<=gradsteps; i++) {
     color=colormap2[i-1];
@@ -238,26 +239,39 @@ var default_bimodal_colormaps={
   }
 
   var bimodal=topnode.getAttribute('gradient_bimodal')=='true';
-  if (bimodal) {
-    var colormaps=defaults.bimodal_colormaps;
-  } else {
-    var colormaps=defaults.colormaps;
-  }
+  var colormaps=defaults.colormaps;
   colormapnames=[];
   for (var colormapname in colormaps) {
       if (colormaps.hasOwnProperty(colormapname)) {
           colormapnames.push(colormapname);
       }
   }  
-  if (!('colormaps' in topnode)) {    
-      topnode.colormaps=colormaps;
+  var bimodal_colormaps=defaults.bimodal_colormaps;
+  bimodal_colormapnames=[];
+  for (var colormapname in bimodal_colormaps) {
+      if (bimodal_colormaps.hasOwnProperty(colormapname)) {
+          bimodal_colormapnames.push(colormapname);
+      }
   }  
 
+  if (bimodal) {
+    var colormaps=defaults.bimodal_colormaps;
+  } else {
+    var colormaps=defaults.colormaps;
+  }
+
+
+
+  if (!('colormaps' in topnode)) {    
+      topnode.colormaps=colormaps;      
+  }  
+
+
   topnode.colormapnames=colormapnames;
+  topnode.bimodal_colormapnames=bimodal_colormapnames;
   if (!topnode.hasAttribute('colormapname')) {
       topnode.setAttribute('colormapname',colormapnames[0]);
-  }
-  
+  }  
 
   update_colormaps(topnode);
   

@@ -89,24 +89,29 @@ function update_colormaps (gradient_node) {
 
 	var gradsteps=gradient_node.getAttribute('gradient_steps')
 	var colormapname=gradient_node.getAttribute('colormapname');	
-	var colormaps=gradient_node.colormaps;
+	var colormaps=gradient_node.colormaps;	
+	console.log('cmap',colormapname);
+
 	if (bimodal) {
-		if (invert) {
-  			var colormap=colormaps[colormapname][1](gradsteps);
-  			var colormap2=colormaps[colormapname][0](gradsteps).reverse();
-		} else {
-  			var colormap=colormaps[colormapname][0](gradsteps);
-  			var colormap2=colormaps[colormapname][1](gradsteps).reverse();
+		if (!(colormapname in colormaps)) {
+			colormapname=gradient_node.bimodal_colormapnames[0];
 		}
-		gradient_node.colormap=colormap;
-		gradient_node.colormap2=colormap2;
-	} else { 
-  		var colormap=colormaps[colormapname](gradsteps);
+		console.log('cmap',colormapname, gradient_node.bimodal_colormapnames);
+		if (invert) {
+  			gradient_node.colormap=colormaps[colormapname][1](gradsteps);
+  			gradient_node.colormap2=colormaps[colormapname][0](gradsteps).reverse();
+		} else {
+  			gradient_node.colormap=colormaps[colormapname][0](gradsteps);
+  			gradient_node.colormap2=colormaps[colormapname][1](gradsteps).reverse();
+		}		
+	} else {   		
   		if (invert) {
-    		colormap=colormap.reverse();  
-  		} 
+    		gradient_node.colormap=colormaps[colormapname](gradsteps).reverse();
+  		} else {
+  			gradient_node.colormap=colormaps[colormapname](gradsteps);
+  		}
   	}
-  	gradient_node.colormap=colormap;
+  	
 }
 
 
@@ -132,7 +137,7 @@ var click_colormap=function click_colormap (evt) {
 	gradient_node=document.getElementById(gradient);
 	gradient_node.setAttribute('colormapname',colormapname);
 	
-	update_colormaps();
+	update_colormaps(gradient_node);
 	//gradient_node.colormap=gradient_node.colormaps[colormapname](gradsteps);
 	gradient_node.need_data_recalc=false;
 	
@@ -167,9 +172,10 @@ function update_gradient (e) {
 	console.log('update_gradient:');
 	if (e.keyCode == '13') {
 		widget_id=$(this).attr('data-widget');
-		gradmax=$('#max_'+widget_id).val();
-		gradsteps=$('#steps_'+widget_id).val();
+		gradmax=$('#max_'+widget_id).val();		
+		gradcenter=$('#center_'+widget_id).val();
 		gradmin=$('#min_'+widget_id).val();
+		gradsteps=$('#steps_'+widget_id).val();
 		console.log('update_gradient:',widget_id, gradmin, gradmax, gradsteps);
 
 
@@ -184,6 +190,7 @@ function update_gradient (e) {
 
 		update_colormaps(gradient_node);
 		gradient_node.setAttribute('gradient_min', gradmin);
+		gradient_node.setAttribute('gradient_center',gradcenter);
 		gradient_node.setAttribute('gradient_max',gradmax);
 		gradient_node.setAttribute('gradient_steps',gradsteps);
 		gradient_node.need_data_recalc=true;
@@ -216,7 +223,7 @@ var toggle_invert=function toggle_invert (evt) {
 
 	console.log('toggle_invert', gradient_node.getAttribute('gradient_invert'));
 
-	update_colormaps();
+	update_colormaps(gradient_node);
 	update_invert_state(this,gradient_node);
 	gradient_node.need_data_recalc=true;	
 	draw_colormap (gradient_node);
