@@ -185,7 +185,7 @@ var init_colormap=function init_colormap (i, topnode) {
 
 var default_bimodal_colormaps={              
             'blue-white-red':[colormap_blue, colormap_red],
-            'blue_white-blue':[colormap_blue, colormap_blue],                      
+            'blue-white-blue':[colormap_blue, colormap_blue],                      
               };
 
 
@@ -202,7 +202,8 @@ var default_bimodal_colormaps={
               colormaps: default_colormaps ,
               bimodal_colormaps: default_bimodal_colormaps ,
               gradient_invert: 'false',
-              gradient_bimodal: 'true'             
+              gradient_bimodal: 'true',
+              controltype:'flat' 
             };
 
   
@@ -280,6 +281,9 @@ var default_bimodal_colormaps={
 
   //console.log('calc_colormap:',colormap);
   topnode.need_data_recalc=true;
+  if (!('controltype' in controlnode)) {
+    controlnode.setAttribute('controltype',defaults.controltype)
+  }
   init_controls(controlnode, topnode);
   draw_colormap(topnode);
 }

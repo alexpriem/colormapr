@@ -49,6 +49,7 @@ function init_sizes(widget_id) {
 
 var click_transform=function click_transform (evt) {
 
+	var widget_id=$(this).attr('data-widget');
 	if (evt.type=='click') {
 		var transform=$(this).attr('data-transform');
 		$('.transformname_'+widget_id).removeClass('active_selectie');
@@ -57,8 +58,6 @@ var click_transform=function click_transform (evt) {
 	if (evt.type=='change'){
 		var transform=$(this).val();
 	}	
-	
-	widget_id=$(this).attr('data-widget');
 	
 	topnode=document.getElementById(widget_id);
 	gradient=topnode.getAttribute('data-gradient');
@@ -290,10 +289,11 @@ var colormap_select=function colormap_select (evt) {
 function init_controls (node, gradientnode) {
 
     console.log('init_controls, create:', node.id);
-	xpixels=gradientnode.getAttribute('xpixels');
-	ypixels=gradientnode.getAttribute('ypixels');
-	show_size=gradientnode.getAttribute('show_size');
-	sizes=[];
+	var xpixels=gradientnode.getAttribute('xpixels');
+	var ypixels=gradientnode.getAttribute('ypixels');
+	var show_size=gradientnode.getAttribute('show_size');
+
+	var sizes=[];
 	if (show_size=='true') {
 		show_size=true;
 	} else {
@@ -327,8 +327,14 @@ function init_controls (node, gradientnode) {
     }
     var template = Handlebars.compile(source); 
 
-    colormaps=[];  
-    var colormapnames=gradientnode.colormapnames;
+    var colormaps=[];  
+	var bimodal=gradientnode.getAttribute('gradient_bimodal')=='true';
+	if (bimodal) {
+		var colormapnames=gradientnode.bimodal_colormapnames;
+	} else
+	{
+    	var colormapnames=gradientnode.colormapnames;
+    }
     for (i=0; i<colormapnames.length; i++){
         colormaps.push({name:colormapnames[i], widget_id:node.id});
     }
