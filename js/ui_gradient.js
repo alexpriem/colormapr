@@ -44,23 +44,25 @@ if (topnode.hasAttribute('gradient_max_data')){
 var gradcenter=topnode.getAttribute('gradient_center');
 var gradsteps=topnode.getAttribute('gradient_steps');
 var transform=topnode.getAttribute('transform');
-var transform=topnode.getAttribute('transform');
 var bimodal=topnode.getAttribute('gradient_bimodal')=='true';
 var colormap=topnode.colormap;
 var colormap2=topnode.colormap2;
-console.log('draw_colormap, gradmin/gradmax:',gradmin, gradmax);
+console.log('draw_colormap: transform, gradmin/gradmax, log_min:',transform, gradmin, gradmax, log_min);
 
 //chart = d3.select("#svg_"+topnode);
 // $('.colormap').remove(); oude element verwijderen.
 var barlength=200;    // FIXME: getAttribute !
 
+var log_min=0.001;
+
   if (transform=='linear') {
 	var colorScale=d3.scale.linear();
   }  
-  if (transform=='log10') {  	
+  if (transform=='log') {  	
+  	var log_min=topnode.getAttribute('log_min');
   	var colorScale=d3.scale.log();
-    if (gradmin==0)  {      //bandaid
-        gradmin=1;
+    if ((gradmin>=0) && (gradmin<log_min))  {      //bandaid
+        gradmin=log_min;
       }
   }
   if (transform=='sqrt') {
@@ -69,6 +71,7 @@ var barlength=200;    // FIXME: getAttribute !
 
 //  console.log('Colorscale, datadomain',datamin, datamax);
   //console.log('Colorscale, domain',tgradmin, tgradmax);
+  console.log(gradmin,gradmax);
   colorScale.domain([gradmax, gradmin]);
   colorScale.range([0,barlength]); 
   colorScale.ticks(8);
@@ -198,12 +201,14 @@ var default_bimodal_colormaps={
               gradient_max: 100,
               gradient_center: 50,
               gradient_steps: 20,
+              log_min: 1,			// minimum log-value; everything below this is set to to log_min
               transform: 'linear',
               colormaps: default_colormaps ,
               bimodal_colormaps: default_bimodal_colormaps ,
               gradient_invert: 'false',
               gradient_bimodal: 'true',
-              controltype:'flat' 
+              controltype:'flat',
+              
             };
 
   

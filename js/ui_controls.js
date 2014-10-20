@@ -175,7 +175,7 @@ function update_gradient (e) {
 		gradcenter=$('#center_'+widget_id).val();
 		gradmin=$('#min_'+widget_id).val();
 		gradsteps=$('#steps_'+widget_id).val();
-		console.log('update_gradient:',widget_id, gradmin, gradmax, gradsteps);
+		console.log('update_gradient:',widget_id, gradmin, gradcenter, gradmax, gradsteps);
 
 
 		topnode=document.getElementById(widget_id);
