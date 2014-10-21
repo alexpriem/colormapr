@@ -175,7 +175,7 @@ function update_gradient (e) {
 		gradcenter=$('#center_'+widget_id).val();
 		gradmin=$('#min_'+widget_id).val();
 		gradsteps=$('#steps_'+widget_id).val();
-		console.log('update_gradient:',widget_id, gradmin, gradcenter, gradmax, gradsteps);
+		console.log('update_gradient:',widget_id, gradmin, gradcenter,gradmax, gradsteps);
 
 
 		topnode=document.getElementById(widget_id);
@@ -186,6 +186,13 @@ function update_gradient (e) {
 		console.log(gradient_node.colormaps)
 		console.log ('map:',colormapname, gradsteps);
 		console.log('grad:',gradient_node.colormaps[colormapname]);
+
+		var transform=topnode.getAttribute('transform');
+	  	var log_min=topnode.getAttribute('log_min');
+	  	var colorScale=d3.scale.log();
+    	if ((gradmin>=0) && (gradmin<log_min))  {      //bandaid
+	        gradmin=log_min;
+    	  }
 
 		update_colormaps(gradient_node);
 		gradient_node.setAttribute('gradient_min', gradmin);

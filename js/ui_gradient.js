@@ -44,6 +44,7 @@ if (topnode.hasAttribute('gradient_max_data')){
 var gradcenter=topnode.getAttribute('gradient_center');
 var gradsteps=topnode.getAttribute('gradient_steps');
 var transform=topnode.getAttribute('transform');
+var log_min=topnode.getAttribute('log_min');
 var bimodal=topnode.getAttribute('gradient_bimodal')=='true';
 var colormap=topnode.colormap;
 var colormap2=topnode.colormap2;
@@ -53,7 +54,7 @@ console.log('draw_colormap: transform, gradmin/gradmax, log_min:',transform, gra
 // $('.colormap').remove(); oude element verwijderen.
 var barlength=200;    // FIXME: getAttribute !
 
-var log_min=0.001;
+
 
   if (transform=='linear') {
 	var colorScale=d3.scale.linear();
@@ -61,7 +62,7 @@ var log_min=0.001;
   if (transform=='log') {  	
   	var log_min=topnode.getAttribute('log_min');
   	var colorScale=d3.scale.log();
-    if ((gradmin>=0) && (gradmin<log_min))  {      //bandaid
+    if ((gradmin>=0) && (gradmin<log_min))  {      //todo: bimodal min/max
         gradmin=log_min;
       }
   }
