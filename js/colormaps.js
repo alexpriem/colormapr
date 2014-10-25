@@ -130,9 +130,11 @@ return cmap;
 
 
 var colormap_blueblack=function colormap_blueblack (N) {
-	
-scale=chroma.scale(['white', '#d2ecf7','#9cd7ef','#00a1cd','#008dd1','#004b9a', '#002c61']);
 
+	// CIElab gradient from http://davidjohnstone.net/pages/lch-lab-colour-gradient-picker
+var scale=chroma.scale(['#000000','#121b23','#192f41','#1e4462','#1f5b84','#1c72a8','#128bce']);
+var scale=chroma.scale(['#000000','#121e23','#1a3541','#1f4e61','#216983','#1f85a7','#16a2cc']);
+var scale=chroma.scale(['#000000','#0b2840','#004c82','#0074ca','#009eff','#00cbff','#00f9ff']);
 // dump for debug-purposes
 cmap=[];
 frac=1.0/N;
@@ -144,6 +146,31 @@ for (i=0; i<N; i++){
 return cmap;
 }
 
+
+var colormap_blueblack=function colormap_blueblack2 (N) {
+var scale=chroma.scale(['#000000','#121b23','#192f41','#1e4462','#1f5b84','#1c72a8','#128bce']);
+// dump for debug-purposes
+cmap=[];
+frac=1.0/N;
+for (i=0; i<N; i++){
+	rgb=scale(i*frac).rgb();
+	cmap.push([parseInt(rgb[0]),parseInt(rgb[1]),parseInt(rgb[2])]);
+//	console.log('%d:%d,%d,%d',i,rgb[0],rgb[1],rgb[2]);
+}
+return cmap;
+}
+
+
+
+/*
+			0  0   100
+d2ecf7 -- 198, 15, 96.9
+		  197  34.7  93.7
+		  193  100  80.4
+		  200  100  82.0
+		  211  100  60.4
+		  213  100  38.0 
+		  */
 
 var colormap_blue=function colormap_blue(N){
 
