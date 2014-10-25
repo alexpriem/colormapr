@@ -78,7 +78,7 @@ var barlength=200;    // FIXME: getAttribute !
   colorScale.ticks(8);
 
   var colorAxis=d3.svg.axis();  
-  colorAxis.scale(colorScale)       
+  colorAxis.scale(colorScale)        
        .orient("right");
 
   scalepos=95;
@@ -87,6 +87,11 @@ var barlength=200;    // FIXME: getAttribute !
         .attr("transform","translate("+scalepos+",35)")
         .call(colorAxis);        
  
+   chart.selectAll(".tick >text")
+        .attr("font-family", "Corbel")
+        .attr("font-weight", "normal")
+        .attr('font-size',fontsize+'px');
+        
   //console.log('100::::',colorScale(gradmax))
   //console.log('50::::',)
   //console.log('0::::',colorScale(gradmin))
@@ -103,7 +108,7 @@ var barlength=200;    // FIXME: getAttribute !
 
 var barstep=(barlength)/gradsteps;
 
-console.log('::::::',min_px,center_px, max_px, barlength, barstep);
+//console.log('draw_colormap::::::',min_px,center_px, max_px, barlength, barstep);
 
 console.log('draw_colormap, barlength/barstep:',barlength, barstep);
 chart.append("rect")  
@@ -116,7 +121,6 @@ chart.append("rect")
   .style("stroke","black")
   .style("stroke-width","1px");
 
- console.log(colormap);
  for (i=1; i<=gradsteps; i++) {
   color=colormap[i-1];
   //console.log('yy:',i,barlength-barstep*i-1, color);

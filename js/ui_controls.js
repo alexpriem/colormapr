@@ -168,7 +168,7 @@ $('#colormap_'+colormapname+'_'+widget_id).addClass('active_selectie');
 function update_gradient (e) {
 
 	
-	console.log('update_gradient:');
+//	console.log('update_gradient:');
 	if (e.keyCode == '13') {
 		widget_id=$(this).attr('data-widget');
 		gradmax=$('#max_'+widget_id).val();		
@@ -182,10 +182,10 @@ function update_gradient (e) {
 		gradient=topnode.getAttribute('data-gradient');
 		gradient_node=document.getElementById(gradient);	
 		var colormapname=gradient_node.getAttribute('colormapname');		
-		console.log('map/#',topnode, gradient, gradient_node);
-		console.log(gradient_node.colormaps)
-		console.log ('map:',colormapname, gradsteps);
-		console.log('grad:',gradient_node.colormaps[colormapname]);
+//		console.log('map/#',topnode, gradient, gradient_node);
+//		console.log(gradient_node.colormaps)
+//		console.log ('map:',colormapname, gradsteps);
+//		console.log('grad:',gradient_node.colormaps[colormapname]);
 
 		var transform=topnode.getAttribute('transform');
 	  	var log_min=topnode.getAttribute('log_min');
