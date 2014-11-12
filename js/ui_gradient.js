@@ -190,6 +190,8 @@ var init_colormap=function init_colormap (i, topnode) {
             'hot2':colormap_hot2,   
             'hot3':colormap_hot3,
             'ygb':colormap_ygb,
+            'qualitative':colormap_qualitative,
+            'qualitative14':colormap_qualitative14           
               };
 
 var default_bimodal_colormaps={              
@@ -213,7 +215,7 @@ var default_bimodal_colormaps={
               colormaps: default_colormaps ,
               bimodal_colormaps: default_bimodal_colormaps ,
               gradient_invert: 'false',
-              gradient_bimodal: 'true',
+              gradient_bimodal: 'false',
               controltype:'flat',
               
             };
