@@ -20,7 +20,6 @@ var svg=d3.select('#'+topnode.id).append('svg')
 
 var width=topnode.getAttribute('width');
 var height=topnode.getAttribute('height');
-
 svg.attr('width',150);
 svg.attr('height',300);
 var chart=svg.append('svg:g');
@@ -46,6 +45,7 @@ var gradsteps=topnode.getAttribute('gradient_steps');
 var transform=topnode.getAttribute('transform');
 var log_min=topnode.getAttribute('log_min');
 var bimodal=topnode.getAttribute('gradient_bimodal')=='true';
+var fontsize=topnode.getAttribute('fontsize');
 var colormap=topnode.colormap;
 var colormap2=topnode.colormap2;
 console.log('draw_colormap: transform, gradmin/gradmax, log_min:',transform, gradmin, gradmax, log_min);
@@ -206,6 +206,7 @@ var default_bimodal_colormaps={
               gradient_max: 100,
               gradient_center: 50,
               gradient_steps: 20,
+              fontsize: 11,
               log_min: 1,			// minimum log-value; everything below this is set to to log_min
               transform: 'linear',
               colormaps: default_colormaps ,
