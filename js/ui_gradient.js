@@ -49,6 +49,7 @@ var fontsize=topnode.getAttribute('fontsize');
 var colormap=topnode.colormap;
 var colormap2=topnode.colormap2;
 console.log('draw_colormap: transform, gradmin/gradmax, log_min:',transform, gradmin, gradmax, log_min);
+console.log('draw_colormap: steps',gradsteps, colormap.length);
 
 //chart = d3.select("#svg_"+topnode);
 // $('.colormap').remove(); oude element verwijderen.

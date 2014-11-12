@@ -89,7 +89,7 @@ function update_colormaps (gradient_node) {
 	var gradsteps=gradient_node.getAttribute('gradient_steps')
 	var colormapname=gradient_node.getAttribute('colormapname');	
 	var colormaps=gradient_node.colormaps;	
-	console.log('cmap',colormapname);
+	console.log('update_colormaps, cmap/steps',colormapname, gradsteps);
 
 	if (bimodal) {
 		if (!(colormapname in colormaps)) {
@@ -194,12 +194,13 @@ function update_gradient (e) {
 	        gradmin=log_min;
     	  }
 
-		update_colormaps(gradient_node);
+		
 		gradient_node.setAttribute('gradient_min', gradmin);
 		gradient_node.setAttribute('gradient_center',gradcenter);
 		gradient_node.setAttribute('gradient_max',gradmax);
 		gradient_node.setAttribute('gradient_steps',gradsteps);
 		gradient_node.need_data_recalc=true;
+		update_colormaps(gradient_node);
 		draw_colormap (gradient_node);
 		console.log('update_gradient done');
 	}
